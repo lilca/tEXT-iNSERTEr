@@ -72,5 +72,6 @@ result(test.html)
 Explanations:
  * The contents of specified file(test_sub.hmtl) at "ref" attribute were inserted.
  * No action for invalid attributes(e.g. above "convert").
- * When a specified file is not exist, "tir" inserts message at "msg" attribute.
+ * When a specified file was not exist, "tir" inserts message at "msg" attribute.
+ * Output file name became a name that was removed ".tir" suffix from input file name.
  
