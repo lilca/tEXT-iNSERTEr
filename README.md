@@ -68,3 +68,9 @@ result(test.html)
 	</body>
 </html>
 ```
+
+Explanations:
+ *The contents of specified file(test_sub.hmtl) at "ref" attribute were inserted.
+ *No action for invalid attributes(e.g. above "convert").
+ *When a specified file is not exist, "tir" inserts message at "msg" attribute.
+ 
