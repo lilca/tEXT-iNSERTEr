@@ -8,7 +8,7 @@ tir: tir.c
 clean:
 	rm -f tir
 
-test:
+example1:
 	tir test.html.tir -y
 
 #install: tir
