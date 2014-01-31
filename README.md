@@ -1,4 +1,4 @@
-tir (Text Inserter)
+tir (tEXT iNSERTEr)
 ===
 
 ```
