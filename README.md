@@ -7,7 +7,7 @@ tir <input file> [-o <output file>] [-bw <beginning word>] [-ew <ending word>] [
 What's tir?
 ===
 
-"tir" is a program for inserting the data of specified file into the specified place of a input file.
+```tir``` is a program for inserting the data of specified file into the specified place of a input file.
 
 Install
 ===
@@ -76,9 +76,9 @@ result(test.html)
 ```
 
 Explanations:
- * The contents of specified file(test_sub.hmtl) at "ref" attribute were inserted.
- * No action for invalid attributes(e.g. above "convert").
- * When a specified file was not exist, "tir" inserts message at "msg" attribute.
+ * The contents of specified file(test_sub.hmtl) at ```ref``` attribute were inserted.
+ * No action for invalid attributes(e.g. above ``convert``).
+ * When a specified file was not exist, ```tir``` inserts message at `msg` attribute.
  * Output file name became a name that was removed ".tir" suffix from input file name.
  
 Deference of "sed" command
