@@ -29,3 +29,6 @@ Default words:
   sh rb py r   | #[tir:begin]    | [tir:end]#
   other(e.g. c)| /*[tir:begin]   | [tir:end]*/
 ```
+Case examples
+===
+*1. In HTML file, inserting HTML file
