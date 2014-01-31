@@ -31,4 +31,23 @@ Default words:
 ```
 Case examples
 ===
-*1. In HTML file, inserting HTML file
+*1. Into a HTML file, inserting HTML files
+
+Command:
+```
+$tir test.html.tir -y
+```
+
+test.html.tir:
+```
+<!DOCTYPE html>
+<html>
+	<head>
+		<!--[tir:begin] ref="test_sub.html" convert="urlpaese" [tir:end]-->
+	</head>
+	<body>
+		<!--[tir:begin] 	ref=test sss.html [tir:end]-->
+		<!--[tir:begin]ref=test_sss3.html[tir:end]-->
+	</body>
+</html>
+```
