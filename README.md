@@ -26,7 +26,8 @@ Usage:
   -ew : Ending word for inserting
         e.g. tir infile.c -o outfile.c -bw '//[tir:begin]' -ew '[tir:end]'
   -h  : Display help
-  -y  : To override without asking  -makefile:
+  -y  : To override without asking
+  -makefile:
         Output makefile info.
 Default words:
   Suffix       | Begin           | End
