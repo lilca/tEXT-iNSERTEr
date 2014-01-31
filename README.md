@@ -7,4 +7,4 @@ tir <input file> [-o <output file>] [-bw <beginning word>] [-ew <ending word>] [
 What's tir?
 ===
 
-"tir" is a program for inserting the data of specified file, to the specified place of a input file.
+"tir" is a program for inserting the data of specified file into the specified place of a input file.
