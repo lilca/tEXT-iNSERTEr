@@ -9,6 +9,12 @@ What's tir?
 
 "tir" is a program for inserting the data of specified file into the specified place of a input file.
 
+Install
+===
+```
+$make install
+```
+
 Help
 ===
 
