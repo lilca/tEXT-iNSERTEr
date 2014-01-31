@@ -86,3 +86,5 @@ Deference of "sed" command
 You think that, "tir" command is not necesary because the combination of "sed" command & shell script are able to give same result?
 
 I answer you that "That's right! Maybe, I don't know the specific method.".
+
+```tir``` command
