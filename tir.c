@@ -355,7 +355,7 @@ void print_usage(){
 	printf("  -ew : Ending word for inserting\n");
 	printf("        e.g. tir infile.c -o outfile.c -bw '//[tir:begin]' -ew '[tir:end]'\n");
 	printf("  -h  : Display help\n");
-	printf("  -y  : To override without asking");
+	printf("  -y  : To override without asking\n");
 	printf("  -makefile:\n");
 	printf("        Output makefile info.\n");
 	return;
