@@ -88,3 +88,5 @@ You think that, `tir` command is not necessary because the combination of `sed` 
 I answer you that "That's right! Maybe. I don't know the specific method.".
 
 I designed as complicate descriptions are not necessary by `tir`.
+
+If you prefer `tir`, please use and improvement(e.g. Pull Requests).
