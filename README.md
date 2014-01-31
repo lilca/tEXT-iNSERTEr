@@ -53,14 +53,14 @@ test.html.tir:
 ```
 test_sub.html:
 ```
-<h1>yahoo!</h1>
+<h1>Hello!!</h1>
 ```
 result(test.html)
 ```
 <!DOCTYPE html>
 <html>
 	<head>
-		<h1>yahoo!</h1>
+		<h1>Hello!!</h1>
 	</head>
 	<body>
 		<!--[tir:begin] msg="Can't open a file:test" [tir:end]-->
