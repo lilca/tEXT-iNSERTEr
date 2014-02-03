@@ -1,15 +1,16 @@
 tir (tEXT iNSERTEr)
+===
 Contents
 ===
 * [What's 'tir'?]()
 * [Install](#install)
 * [Syntax](#syntax)
-* [What's 'tir'?](#what)
+* [What's 'tir'?](#whats-tir)
 * [Help](#help)
 * [Case examples](#case-examples)
-  1. Into a HTML file, inserting HTML files
-  2. Multi-File & Multi-Directory & Nesting 
-* [Deference of `sed` command]()
+  [1. Into a HTML file, inserting HTML files]()
+  [2. Multi-File & Multi-Directory & Nesting]()
+* [Deference of `sed` command](#deference-of-sed-command)
  
 What's 'tir'?
 ===
