@@ -124,7 +124,9 @@ test.html.tir:
 	<body>
 		<!--[tir:begin]  ref="./sub/sub.html" [tir:end]-->
 	</body>
-</html>```
+</html>
+```
+
 test_sub.html:
 ```
 <h1>Hello!!</h1>
