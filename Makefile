@@ -11,5 +11,5 @@ clean:
 example1:
 	tir test.html.tir -y
 
-#install: tir
-#	install -s tir /usr/local/bin
+install: tir
+	install -s tir /usr/local/bin

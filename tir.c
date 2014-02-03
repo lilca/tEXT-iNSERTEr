@@ -23,6 +23,7 @@ void init();
 void parse_parameters(int c, char** v);
 void invalid_check_parameters();
 void fix_parameters();
+void get_current(char* path);
 char* open_file(char* path);
 void apply_files(char* f, char* path);
 char* get_reference_path(char* content, char* result);
@@ -44,6 +45,7 @@ char p_ew[BUF_SIZE];	// The ending word in parameter
 // Global variable
 int gl_yes_flag			= 0;	// Default of all-yes-flag is false
 int gl_makefile_flag	= 0;	// Default of makefile-flag is false
+char gl_current[BUF_SIZE];		// Current path(place of input file)
 
 int main(int argc, char** argv){
 	init();
@@ -51,6 +53,7 @@ int main(int argc, char** argv){
 	parse_parameters(argc, argv);
 	fix_parameters();
 	invalid_check_parameters();
+	get_current(p_ifp);
 	print_parameters();
 	// Read a input file
 	char* all = open_file(p_ifp);
@@ -149,7 +152,7 @@ void fix_parameters(){
 		strcpy(p_ofp, cutsuffix(buf, ".tir"));
 	}
 	// Check a suffix of input file
-	char* suffix = strstr(p_ofp, ".");
+	char* suffix = strrchr(p_ofp, '.');
 	// When the beginning word wasn't input
 	if( !strcmp(suffix, ".html") || !strcmp(suffix, ".htm") || !strcmp(suffix, ".xml") ){
 		if( !strcmp(p_bw, "") ){
@@ -176,6 +179,16 @@ void fix_parameters(){
 			strcpy(p_ew, "[tir:end]*/");
 		}		
 	}
+	return;
+}
+
+void get_current(char* path){
+	char* pos = strrchr(path, '/');
+	if( pos == NULL ){
+		strcpy(gl_current, "./");
+		return;
+	}
+	strncpy(gl_current, path, pos - path +1);
 	return;
 }
 
@@ -249,11 +262,15 @@ void apply_files(char* f, char* path){
 		// Parse attribute
 		char ref_attr[BUF_SIZE];
 		get_reference_path(pram, ref_attr);
+		// Edit target path
+		char target[BUF_SIZE];
+		strcpy(target, gl_current);
+		strcat(target, ref_attr);
 		if( gl_makefile_flag )
-			printf(" %s", ref_attr);
+			printf(" %s", target);
 		// Output reference file
 		if( !gl_makefile_flag ){
-			include_reference_file(ref_attr, fp);
+			include_reference_file(target, fp);
 		}
 		// Move position
 		pos = ptr_end + strlen(p_ew);
