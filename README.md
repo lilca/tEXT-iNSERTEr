@@ -104,20 +104,48 @@ Explanations:
 
 Command:
 ```
-$ tir test.html.tir -y
+$ createMakefile.sh ./example2
+$ cp ./example2/Makefile.txt ./example2/Makefile
+$ make -f ./example2/Makefile
 ```
-
+or
+```
+$ make ex2
+```
 test.html.tir:
 ```
 <!DOCTYPE html>
-</html>
-```
+<html>
+	<head>
+		<!--[tir:begin] ref="test_sub.html" convert="urlpaese" [tir:end]-->
+	</head>
+	<body>
+		<!--[tir:begin]  ref="./sub/sub.html" [tir:end]-->
+	</body>
+</html>```
 test_sub.html:
 ```
 <h1>Hello!!</h1>
 ```
+sub/sub.html.tir
+```
+<!--[tir:begin] ref="hey.html" [tir:end]-->
+```
+sub/hey.html
+```
+<h1>Hey!</h1>
+```
 result(test.html)
 ```
+<!DOCTYPE html>
+<html>
+	<head>
+		<h1>Hello!!</h1>
+
+	</head>
+	<body>
+		<h1>Hey!</h1>
+	</body>
 </html>
 ```
 
