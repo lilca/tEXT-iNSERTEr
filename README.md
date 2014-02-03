@@ -12,7 +12,7 @@ What's tir?
 Install
 ===
 ```
-$make install
+$ sudo make install
 ```
 
 Help
