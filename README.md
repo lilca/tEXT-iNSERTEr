@@ -76,10 +76,12 @@ test.html.tir:
 	</body>
 </html>
 ```
+
 test_sub.html:
 ```
 <h1>Hello!!</h1>
 ```
+
 result(test.html)
 ```
 <!DOCTYPE html>
