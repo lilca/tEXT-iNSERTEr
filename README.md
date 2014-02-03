@@ -56,7 +56,11 @@ Case examples
 
 Command:
 ```
-$tir test.html.tir -y
+$tir ./example1/test.html.tir -y
+```
+or
+```
+$make ex1
 ```
 
 test.html.tir:
