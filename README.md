@@ -8,8 +8,8 @@ Contents
 * [What's 'tir'?](#whats-tir)
 * [Help](#help)
 * [Case examples](#case-examples)
-  [1. Into a HTML file, inserting HTML files](#1-into-a-html-file-inserting-html-files)
-  [2. Multi-File & Multi-Directory & Nesting](#2-multi-file-multi-directory-nesting)
+  * [1. Into a HTML file, inserting HTML files](#1-into-a-html-file-inserting-html-files)
+  * [2. Multi-File & Multi-Directory & Nesting](#2-multi-file-multi-directory-nesting)
 * [Deference of `sed` command](#deference-of-sed-command)
  
 What's 'tir'?
@@ -95,7 +95,31 @@ Explanations:
  * No action for invalid attributes(e.g. above `convert`).
  * When a specified file was not exist, `tir` inserts message at `msg` attribute.
  * Output file name became a name that was removed `.tir` suffix from input file name.
- 
+
+###2. Multi-File & Multi-Directory & Nesting
+
+Command:
+```
+$tir test.html.tir -y
+```
+
+test.html.tir:
+```
+<!DOCTYPE html>
+</html>
+```
+test_sub.html:
+```
+<h1>Hello!!</h1>
+```
+result(test.html)
+```
+</html>
+```
+
+Explanations:
+ * The c
+
 Deference of `sed` command
 ===
 You think that, `tir` command is not necessary because the combinations of `sed` command & shell script are able to give same result?
