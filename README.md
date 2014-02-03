@@ -130,6 +130,6 @@ You think that, `tir` command is not necessary because the combinations of `sed`
 
 I answer you that "That's right! Maybe. I don't know the specific method.".
 
-I designed 'tir' as complicated descriptions is not necessary.
+I designed `tir` as complicated descriptions is not necessary.
 
 If you prefer `tir`, please use and improvement(e.g. Pull Requests).
