@@ -1,10 +1,15 @@
 tir (tEXT iNSERTEr)
+Contents
 ===
 
-```
-tir <input file> [-o <output file>] [-bw <beginning word>] [-ew <ending word>] [-y] [-makefile] [-h]
-```
-What's tir?
+[Syntax]()
+What's 'tir'?
+Help
+Case examples
+  1. Into a HTML file, inserting HTML files
+  2. Multi-File & Multi-Directory & Nesting 
+Deference of `sed` command
+What's 'tir'?
 ===
 
 `tir` is a program for inserting the data of specified file into the specified place of a input file.
@@ -13,6 +18,12 @@ Install
 ===
 ```
 $ sudo make install
+```
+
+Syntax
+===
+```
+tir <input file> [-o <output file>] [-bw <beginning word>] [-ew <ending word>] [-y] [-makefile] [-h]
 ```
 
 Help
