@@ -154,7 +154,8 @@ result(test.html)
 ```
 
 Explanations:
- * The c
+ * 'createMakefile.sh'は引数のディレクトリをベースとして、Makefile.txt（上書きを避けるため.txtを付けた）を生成する
+ * 
 
 Deference of `sed` command
 ===
