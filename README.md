@@ -9,7 +9,7 @@ Contents
 * [Help](#help)
 * [Case examples](#case-examples)
   * [1. Into a HTML file, inserting HTML files](#1-into-a-html-file-inserting-html-files)
-  * [2. Multi-File & Multi-Directory & Nesting](#2-multi-file-multi-directory-nesting)
+  * [2. Multi-File & Multi-Directory & Nesting](#2-multi-file--multi-directory--nesting)
 * [Deference of `sed` command](#deference-of-sed-command)
  
 What's 'tir'?
