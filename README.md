@@ -2,7 +2,7 @@ tir (tEXT iNSERTEr)
 ===
 Contents
 ===
-* [What's 'tir'?]()
+* [What's 'tir'?](#whats-tir)
 * [Install](#install)
 * [Syntax](#syntax)
 * [What's 'tir'?](#whats-tir)
@@ -26,7 +26,7 @@ $ sudo make install
 Syntax
 ===
 ```
-tir <input file> [-o <output file>] [-bw <beginning word>] [-ew <ending word>] [-y] [-makefile] [-h]
+$ tir <input file> [-o <output file>] [-bw <beginning word>] [-ew <ending word>] [-y] [-makefile] [-h]
 ```
 
 Help
@@ -56,11 +56,11 @@ Case examples
 
 Command:
 ```
-$tir ./example1/test.html.tir -y
+$ tir ./example1/test.html.tir -y
 ```
 or
 ```
-$make ex1
+$ make ex1
 ```
 
 test.html.tir:
@@ -104,7 +104,7 @@ Explanations:
 
 Command:
 ```
-$tir test.html.tir -y
+$ tir test.html.tir -y
 ```
 
 test.html.tir:
@@ -130,6 +130,6 @@ You think that, `tir` command is not necessary because the combinations of `sed`
 
 I answer you that "That's right! Maybe. I don't know the specific method.".
 
-I designed as complicate descriptions are not necessary by `tir`.
+I designed 'tir' as complicated descriptions is not necessary.
 
 If you prefer `tir`, please use and improvement(e.g. Pull Requests).
