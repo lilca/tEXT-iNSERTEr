@@ -96,7 +96,7 @@ Explanations:
  * When a specified file was not exist, `tir` inserts message at `msg` attribute.
  * Output file name became a name that was removed `.tir` suffix from input file name.
 
-###2. Multi-File & Multi-Directory & Nesting
+##2. Multi-File & Multi-Directory & Nesting
 
 Command:
 ```
