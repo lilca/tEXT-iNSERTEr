@@ -77,6 +77,7 @@ void parse_parameters(int c, char** v){
 	char* preword = "";	// Previous word
 	// When arguments are not, display help info.
 	if( c == 1){
+		print_version();
 		print_usage();
 		print_default_words();
 		exit(0);
@@ -84,6 +85,7 @@ void parse_parameters(int c, char** v){
 	for(int idx=1; idx<c; idx++){
 		char* cur = v[idx];	// Current word
 		if( !strcmp(cur, "-h") ){
+			print_version();
 			print_usage();
 			print_default_words();
 			exit(0);
@@ -360,8 +362,9 @@ void include_reference_file(char* path, FILE* ofp){
 }
 
 void print_version(){
-	printf("Text Inserter\n");
-	printf("tir version 0.0.0\n");
+	printf("Text InserteR\n");
+	printf("  version : 0.0\n");
+	printf("  github  : https://github.com/lilca/tir\n");
 	return;
 }
 

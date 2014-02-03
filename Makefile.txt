@@ -1,8 +1,0 @@
-# Makefile info:
-./sub/sub.html: ./sub/sub.html.tir ./sub/../test_sub.html
-	tir './sub/sub.html.tir' -o './sub/sub.html' -bw '<!--[tir:begin]' -ew '[tir:end]-->' -y
-
-# Makefile info:
-./test.html: ./test.html.tir ./test_sub.html ./test ./test_sss3.html
-	tir './test.html.tir' -o './test.html' -bw '<!--[tir:begin]' -ew '[tir:end]-->' -y
-

@@ -1,0 +1,9 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<!--[tir:begin] ref="test_sub.html" convert="urlpaese" [tir:end]-->
+	</head>
+	<body>
+		<!--[tir:begin]  ref="./sub/sub.html" [tir:end]-->
+	</body>
+</html>

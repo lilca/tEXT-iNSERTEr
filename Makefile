@@ -8,8 +8,13 @@ tir: tir.c
 clean:
 	rm -f tir
 
-example1:
-	tir test.html.tir -y
+ex1:
+	tir ./example1/test.html.tir -y
+
+ex2:
+	createMakefile.sh ./example2
+	cp ./example2/Makefile.txt ./example2/Makefile
+	make -f ./example2/Makefile
 
 install: tir
 	install -s tir /usr/local/bin
