@@ -18,3 +18,4 @@ ex2:
 
 install: tir
 	install -s tir /usr/local/bin
+
