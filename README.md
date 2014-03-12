@@ -7,6 +7,7 @@ Contents
 * [Syntax](#syntax)
 * [What's 'tir'?](#whats-tir)
 * [Help](#help)
+* [Create Project](#create-project)
 * [Case examples](#case-examples)
   * [1. Into a HTML file, inserting HTML files](#1-into-a-html-file-inserting-html-files)
   * [2. Multi-File & Multi-Directory & Nesting](#2-multi-file--multi-directory--nesting)
