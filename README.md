@@ -50,6 +50,14 @@ Default words:
   sh rb py r   | #[tir:begin]    | [tir:end]#
   other(e.g. c)| /*[tir:begin]   | [tir:end]*/
 ```
+
+Create Project
+===
+Copy "createMakefile.sh" to project directory.
+```
+$ cp ./createMakefile.sh <project directory>/createMakefile.sh
+```
+
 Case examples
 ===
 ##1. Into a HTML file, inserting HTML files
