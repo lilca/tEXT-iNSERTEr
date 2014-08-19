@@ -4,6 +4,7 @@ Contents
 ===
 * [What's 'tir'?](#whats-tir)
 * [Install](#install)
+* [Contents](#contents)
 * [Syntax](#syntax)
 * [What's 'tir'?](#whats-tir)
 * [Help](#help)
@@ -22,6 +23,27 @@ Install
 ```
 $ sudo make install
 ```
+
+Contents
+===
+/example1
+	/test_sub.html
+	/test.html
+	/test.html.tir
+/example2
+	/Makefile
+	/sub
+		/hey.html
+		/sub.html
+		/sub.html.tir
+	/test_sub.html
+	/test.html
+	/test.html.tir
+/Makefile
+/README.md
+/tir
+/tir.c
+/tirc
 
 Syntax
 ===
