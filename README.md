@@ -26,7 +26,7 @@ $ sudo make install
 
 Files
 ===
-+
++  
 +example1  
 |　+test_sub.html  
 |　+test.html  
