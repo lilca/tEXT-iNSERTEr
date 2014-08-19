@@ -26,6 +26,7 @@ $ sudo make install
 
 Files
 ===
+```
 +  
 +example1  
 |　+test_sub.html  
@@ -45,6 +46,7 @@ Files
 +tir  
 +tir.c  
 +tirc  
+```
 
 Syntax
 ===
