@@ -7,7 +7,6 @@ Contents
 * [Syntax](#syntax)
 * [What's 'tir'?](#whats-tir)
 * [Help](#help)
-* [Create Project](#create-project)
 * [Case examples](#case-examples)
   * [1. Into a HTML file, inserting HTML files](#1-into-a-html-file-inserting-html-files)
   * [2. Multi-File & Multi-Directory & Nesting](#2-multi-file--multi-directory--nesting)
@@ -50,13 +49,6 @@ Default words:
   html htm xml | <!--[tir:begin] | [tir:end]-->
   sh rb py r   | #[tir:begin]    | [tir:end]#
   other(e.g. c)| /*[tir:begin]   | [tir:end]*/
-```
-
-Create Project
-===
-Copy "createMakefile.sh" to project directory.
-```
-$ cp ./createMakefile.sh <project directory>/createMakefile.sh
 ```
 
 Case examples
