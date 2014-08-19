@@ -180,14 +180,14 @@ result(test.html)
 ```
 
 Explanations:
- * 'tirc' creates Makefile for the files into the specified directory()は引数のディレクトリをベースとして、Makefilecaution about the overwriting)
- * 
+ * 'tirc' creates Makefile for 'tir' files in the specified directory.(Caution about the overwriting Makefile)
+ * A html tag '<h1>Hey!</h1>' has achieved description of the nesting structure.
 
 Deference of `sed` command
 ===
 You think that, `tir` command is not necessary because the combinations of `sed` command & shell script are able to give same result?
 
-I answer you that "That's right! Maybe. I don't know the specific method.".
+I answer you that "That's right! Maybe. But I don't know the specific method.".
 
 I designed `tir` as complicated descriptions is not necessary.
 
