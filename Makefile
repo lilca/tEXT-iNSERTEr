@@ -18,5 +18,5 @@ ex2:
 
 install: tir
 	install -s tir /usr/local/bin
-	install -s tirc /usr/local/bin
+	cp tirc /usr/local/bin
 
