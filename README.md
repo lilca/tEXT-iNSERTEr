@@ -27,23 +27,23 @@ $ sudo make install
 Files
 ===
 /example1  
-	/test_sub.html  
-	/test.html  
-	/test.html.tir  
-/example2
-	/Makefile
-	/sub
-		/hey.html
-		/sub.html
-		/sub.html.tir
-	/test_sub.html
-	/test.html
-	/test.html.tir
-/Makefile
-/README.md
-/tir
-/tir.c
-/tirc
+  /test_sub.html  
+  /test.html  
+  /test.html.tir  
+/example2  
+  /Makefile  
+  /sub  
+    /hey.html  
+    /sub.html  
+    /sub.html.tir  
+  /test_sub.html  
+  /test.html  
+  /test.html.tir  
+/Makefile  
+/README.md  
+/tir  
+/tir.c  
+/tirc  
 
 Syntax
 ===
