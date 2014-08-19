@@ -16,8 +16,8 @@ Contents
 What's 'tir' and 'tirc'?
 ===
 
-`tir` is a program for inserting the data of specified file into the specified place of a input file.
-`tirc` is a shell script for building Makefile of specified .tir file with using `tir` command.
+`tir` is a program for inserting the data of specified file into the specified place of a input file.  
+`tirc` is a shell script for building Makefile of specified .tir file with using `tir` command.  
 
 Install
 ===
