@@ -115,7 +115,7 @@ Explanations:
 
 Command:
 ```
-$ createMakefile.sh ./example2
+$ tirc.sh ./example2
 $ cp ./example2/Makefile.txt ./example2/Makefile
 $ make -f ./example2/Makefile
 ```
@@ -163,7 +163,7 @@ result(test.html)
 ```
 
 Explanations:
- * 'createMakefile.sh'は引数のディレクトリをベースとして、Makefile.txt（上書きを避けるため.txtを付けた）を生成する
+ * 'tirc'は引数のディレクトリをベースとして、Makefile.txt（上書きを避けるため.txtを付けた）を生成する
  * 
 
 Deference of `sed` command
