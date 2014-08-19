@@ -13,7 +13,6 @@ ex1:
 
 ex2:
 	tirc ./example2
-	cp ./example2/Makefile.txt ./example2/Makefile
 	make -f ./example2/Makefile
 
 install: tir
