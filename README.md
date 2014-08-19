@@ -107,8 +107,7 @@ Explanations:
 
 Command:
 ```
-$ tirc.sh ./example2
-$ cp ./example2/Makefile.txt ./example2/Makefile
+$ tirc ./example2
 $ make -f ./example2/Makefile
 ```
 or
@@ -155,7 +154,7 @@ result(test.html)
 ```
 
 Explanations:
- * 'tirc'は引数のディレクトリをベースとして、Makefile.txt（上書きを避けるため.txtを付けた）を生成する
+ * 'tirc'は引数のディレクトリをベースとして、Makefile（上書き注意）を生成する
  * 
 
 Deference of `sed` command
