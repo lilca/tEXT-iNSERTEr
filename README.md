@@ -27,9 +27,9 @@ $ sudo make install
 Files
 ===
 /example1  
-  /test_sub.html  
-  /test.html  
-  /test.html.tir  
+　/test_sub.html  
+　/test.html  
+　/test.html.tir  
 /example2  
   /Makefile  
   /sub  
