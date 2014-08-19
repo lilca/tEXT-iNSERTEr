@@ -4,7 +4,7 @@ Contents
 ===
 * [What's 'tir'?](#whats-tir)
 * [Install](#install)
-* [Contents](#contents)
+* [Files](#files)
 * [Syntax](#syntax)
 * [What's 'tir'?](#whats-tir)
 * [Help](#help)
@@ -24,7 +24,7 @@ Install
 $ sudo make install
 ```
 
-Contents
+Files
 ===
 /example1
 	/test_sub.html
