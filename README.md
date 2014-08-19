@@ -2,7 +2,7 @@ tir (tEXT iNSERTEr)
 ===
 Contents
 ===
-* [What's 'tir'?](#whats-tir)
+* [What's 'tir' and 'tirc'?](#whats-tir)
 * [Install](#install)
 * [Files](#files)
 * [Syntax](#syntax)
@@ -10,13 +10,14 @@ Contents
 * [Help](#help)
 * [Case examples](#case-examples)
   * [1. Into a HTML file, inserting HTML files](#1-into-a-html-file-inserting-html-files)
-  * [2. Multi-File & Multi-Directory & Nesting](#2-multi-file--multi-directory--nesting)
+  * [2. Multi-File & Nesting](#2-multi-file--nesting)
 * [Deference of `sed` command](#deference-of-sed-command)
  
-What's 'tir'?
+What's 'tir' and 'tirc'?
 ===
 
 `tir` is a program for inserting the data of specified file into the specified place of a input file.
+`tirc` is a shell script for building Makefile of specified .tir file with using `tir` command.
 
 Install
 ===
@@ -128,7 +129,7 @@ Explanations:
  * When a specified file was not exist, `tir` inserts message at `msg` attribute.
  * Output file name became a name that was removed `.tir` suffix from input file name.
 
-##2. Multi-File & Multi-Directory & Nesting
+##2. Multi-File & Nesting
 
 Command:
 ```
