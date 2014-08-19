@@ -180,7 +180,7 @@ result(test.html)
 ```
 
 Explanations:
- * 'tirc'は引数のディレクトリをベースとして、Makefile（上書き注意）を生成する
+ * 'tirc' creates Makefile for the files into the specified directory()は引数のディレクトリをベースとして、Makefilecaution about the overwriting)
  * 
 
 Deference of `sed` command
