@@ -31,14 +31,14 @@ Files
 　/test.html  
 　/test.html.tir  
 /example2  
-  /Makefile  
-  /sub  
-    /hey.html  
-    /sub.html  
-    /sub.html.tir  
-  /test_sub.html  
-  /test.html  
-  /test.html.tir  
+　/Makefile  
+　/sub  
+　　/hey.html  
+　　/sub.html  
+　　/sub.html.tir  
+　/test_sub.html  
+　/test.html  
+　/test.html.tir  
 /Makefile  
 /README.md  
 /tir  
