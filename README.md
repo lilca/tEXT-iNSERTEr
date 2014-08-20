@@ -184,7 +184,7 @@ result(test.html)
 
 Explanations:
  * 'tirc' creates Makefile for 'tir' files in the specified directory.(Caution about the overwriting Makefile)
- * A html tag &lt;h1&gt;Hey!&lt;/h1&gt;" has achieved description of the nesting structure.
+ * A html tag '&lt;h1&gt;Hey!&lt;/h1&gt;' has achieved description of the nesting structure.
 
 Deference of `sed` command
 ===
