@@ -12,6 +12,7 @@ Contents
   * [1. Into a HTML file, inserting HTML files](#1-into-a-html-file-inserting-html-files)
   * [2. Multi-File & Nesting](#2-multi-file--nesting)
 * [Deference of `sed` command](#deference-of-sed-command)
+* [About license](#license)
  
 What's 'tir' and 'tirc'?
 ===
@@ -197,3 +198,7 @@ I answer you that "That's right! Maybe. But I don't know the specific method.".
 I designed `tir` as complicated descriptions is not necessary.
 
 If you prefer `tir`, please use and improvement(e.g. Pull Requests).
+
+About license
+===
+Under reciew.
