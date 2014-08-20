@@ -201,4 +201,4 @@ If you prefer `tir`, please use and improvement(e.g. Pull Requests).
 
 About license
 ===
-Under reciew.
+Under review.
