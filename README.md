@@ -12,7 +12,7 @@ Contents
   * [1. Into a HTML file, inserting HTML files](#1-into-a-html-file-inserting-html-files)
   * [2. Multi-File & Nesting](#2-multi-file--nesting)
 * [Deference of `sed` command](#deference-of-sed-command)
-* [About license](#license)
+* [About license](#about-license)
  
 What's 'tir' and 'tirc'?
 ===
