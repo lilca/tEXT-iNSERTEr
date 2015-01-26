@@ -2,6 +2,8 @@
 #include <stdlib.h>
 #include <string.h>
 #include <sys/stat.h>
+#include "tir.h"
+#include "base64convert.h"
 
 // Maximum of includes
 #define MAX_INCS	1000
@@ -18,6 +20,9 @@
 #define RESP_YES	1
 #define RESP_NO		2
 
+// Convert mode
+#define CONV_BASE64	"base64"
+
 // Prompt of functions
 void init();
 void parse_parameters(int c, char** v);
@@ -26,8 +31,8 @@ void fix_parameters();
 void get_current(char* path);
 char* open_file(char* path);
 void apply_files(char* f, char* path);
-char* get_reference_path(char* content, char* result);
-void include_reference_file(char* path, FILE* ofp);
+void get_reference_path(char* content, struct tir_attributes* result);
+void include_reference_file(char* path, char* cnv_mode, FILE* ofp);
 void print_version();
 void print_usage();
 void print_parameters();
@@ -261,18 +266,23 @@ void apply_files(char* f, char* path){
 		char pram[BUF_SIZE];
 		strncpy(pram, ptr_begin, ptr_end - ptr_begin );
 		*(pram + (ptr_end - ptr_begin)) = '\0';
-		// Parse attribute
+		// Create struct for attributes
+		struct tir_attributes tattr;
 		char ref_attr[BUF_SIZE];
-		get_reference_path(pram, ref_attr);
+		char cnv_attr[BUF_SIZE];
+		tattr.reference		= ref_attr;
+		tattr.convert_mode	= cnv_attr;
+		// Parse attribute
+		get_reference_path(pram, &tattr);
 		// Edit target path
 		char target[BUF_SIZE];
 		strcpy(target, gl_current);
-		strcat(target, ref_attr);
+		strcat(target, tattr.reference);
 		if( gl_makefile_flag )
 			printf(" %s", target);
 		// Output reference file
 		if( !gl_makefile_flag ){
-			include_reference_file(target, fp);
+			include_reference_file(target, tattr.convert_mode, fp);
 		}
 		// Move position
 		pos = ptr_end + strlen(p_ew);
@@ -285,12 +295,17 @@ void apply_files(char* f, char* path){
 	return;
 }
 
-char* get_reference_path(char* content, char* result){
+void get_reference_path(char* content, struct tir_attributes* result){
 	// Get attribute keyword info
-	char* kw	= "ref=";
-	int kwlen	= strlen(kw);
+	char* kw_ref	= "ref=";
+	int kwlen_ref	= strlen(kw_ref);
+	char* kw_cnv	= "convert=";
+	int kwlen_cnv	= strlen(kw_cnv);
 	// Result buffer clear
-	*result = 0;
+	char* res_ref	= result->reference;
+	char* res_cnv	= result->convert_mode;
+	*res_ref		= 0;
+	*res_cnv		= 0;
 	// Searching
 	char* pos = content;
 	while( *pos != '\0' ){
@@ -301,9 +316,9 @@ char* get_reference_path(char* content, char* result){
 		}
 		// Matching reference keyword
 		else
-		if( !strncmp(pos, kw, kwlen ) ){
+		if( !strncmp(pos, kw_ref, kwlen_ref ) ){
 			// Move positision
-			pos += kwlen;
+			pos += kwlen_ref;
 			// Enclosed the string with double quotation
 			if( *pos == '"'){
 				// Move
@@ -311,25 +326,59 @@ char* get_reference_path(char* content, char* result){
 				// To double quotation
 				long idx = 0;
 				while( *pos != '\"' && *pos != '\0' ){
-					*(result+idx) = *pos;
+					*(res_ref+idx) = *pos;
 					idx++;
 					pos++;
 				}
 				if( *pos == '\"' )
 					pos++;
 				// Terminate
-				*(result+idx) = '\0';
+				*(res_ref+idx) = '\0';
 				continue;
 			}
 			else{
 				long idx = 0;
 				while( *pos != ' ' && *pos != '\t' && *pos != '\n' && *pos != '\0'){
-					*(result+idx) = *pos;
+					*(res_ref+idx) = *pos;
 					idx++;
 					pos++;
 				}
 				// Terminate
-				*(result+idx) = '\0';
+				*(res_ref+idx) = '\0';
+				continue;
+			}
+		}
+		// Matching convert keyword
+		else
+		if( !strncmp(pos, kw_cnv, kwlen_cnv ) ){
+			// Move positision
+			pos += kwlen_cnv;
+			// Enclosed the string with double quotation
+			if( *pos == '"'){
+				// Move
+				pos++;
+				// To double quotation
+				long idx = 0;
+				while( *pos != '\"' && *pos != '\0' ){
+					*(res_cnv+idx) = *pos;
+					idx++;
+					pos++;
+				}
+				if( *pos == '\"' )
+					pos++;
+				// Terminate
+				*(res_cnv+idx) = '\0';
+				continue;
+			}
+			else{
+				long idx = 0;
+				while( *pos != ' ' && *pos != '\t' && *pos != '\n' && *pos != '\0'){
+					*(res_cnv+idx) = *pos;
+					idx++;
+					pos++;
+				}
+				// Terminate
+				*(res_cnv+idx) = '\0';
 				continue;
 			}
 		}
@@ -340,11 +389,20 @@ char* get_reference_path(char* content, char* result){
 		}
 		pos++;
 	}
-	return result;
+	return;
 }
 
-void include_reference_file(char* path, FILE* ofp){
-	FILE* incfp = fopen(path, "r");
+void include_reference_file(char* path, char* cnv_mode, FILE* ofp){
+	int	base64flag	= 0;
+	if( strcmp(CONV_BASE64, cnv_mode) == 0 )
+		base64flag	= 1;
+	FILE* incfp;
+	// Open input file
+	if( base64flag == 1 )
+		incfp = fopen(path, "rb");
+	else
+		incfp = fopen(path, "r");
+	// Output error message
 	if( incfp == NULL ){
 		char str[BUF_SIZE];
 		sprintf(str, "%s msg=\"Can't open a file:%s\" %s",p_bw, path, p_ew);
@@ -354,9 +412,27 @@ void include_reference_file(char* path, FILE* ofp){
 		print_message(MSG_WARNING, str);
 		return;
 	}
-	char buf[BUF_SIZE];
-	while( fgets(buf, BUF_SIZE, incfp) != NULL ){
-		fputs(buf, ofp);
+	// Insert
+	if( base64flag == 1 ){
+		// Get file size
+		struct stat st;
+		stat(path, &st);
+		// Read all
+		unsigned char* filedata = (unsigned char*)malloc(st.st_size * sizeof(unsigned char));
+		fread(filedata, sizeof(unsigned char), st.st_size, incfp);
+		// Convert data
+		char* base64code	= base64encode(filedata, st.st_size);
+		// Output base64code
+		long outsize		= strlen(base64code);
+		fwrite(base64code, sizeof(unsigned char), outsize, ofp);
+		free(filedata);
+		free(base64code);
+	}
+	else{
+		char buf[BUF_SIZE];
+		while( fgets(buf, BUF_SIZE, incfp) != NULL ){
+			fputs(buf, ofp);
+		}
 	}
 	fclose(incfp);
 }

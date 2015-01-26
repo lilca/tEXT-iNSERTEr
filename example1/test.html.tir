@@ -1,10 +1,11 @@
 <!DOCTYPE html>
 <html>
 	<head>
-		<!--[tir:begin] ref="test_sub.html" convert="urlpaese" [tir:end]-->
+		<!--[tir:begin] ref="test_sub.html" background="urlpaese" [tir:end]-->
 	</head>
 	<body>
 		<!--[tir:begin] 	ref=test sss.html [tir:end]-->
 		<!--[tir:begin]ref=test_sss3.html[tir:end]-->
+		<img src="data:image/png;base64,<!--[tir:begin] ref="../testicon.png" convert="base64" [tir:end]-->"/>
 	</body>
 </html>
