@@ -4,7 +4,6 @@ Contents
 ===
 * [What's 'tir' and 'tirc'?](#whats-tir)
 * [Install](#install)
-* [Files](#files)
 * [Syntax](#syntax)
 * [What's 'tir'?](#whats-tir)
 * [Help](#help)
