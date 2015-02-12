@@ -439,7 +439,7 @@ void include_reference_file(char* path, char* cnv_mode, FILE* ofp){
 
 void print_version(){
 	printf("Text InserteR\n");
-	printf("  version : 0.0\n");
+	printf("  version : 0.2.0\n");
 	printf("  github  : https://github.com/lilca/tir\n");
 	return;
 }
