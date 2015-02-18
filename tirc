@@ -1,4 +1,5 @@
 sp=' '
+cfg=tir.cfg
 fn=Makefile
 
 if [ $# -lt 1 ]; then

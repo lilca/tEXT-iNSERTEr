@@ -1,0 +1,10 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title><!--[tir:begin] ref="#[strings]page_tile" [tir:end]--></title>
+	</head>
+	<body>
+		<!--[tir:begin]  ref="#content" [tir:end]-->
+		<!--[tir:begin] ref="sub/sub.html" [tir:end]-->
+	</body>
+</html>
