@@ -1,4 +1,4 @@
-all: ./example2/sub/sub.html.tir ./example2/test.html.tir
+all: ./example2/sub/sub.html ./example2/test.html
 
 # Makefile info:
 ./example2/sub/sub.html: ./example2/sub/sub.html.tir ./example2/sub/hey.html

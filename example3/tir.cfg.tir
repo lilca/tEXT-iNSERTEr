@@ -1,0 +1,7 @@
+; No section
+content=<p>Some content</p>
+; Strings section
+[strings]
+page_tile=Example3
+;
+;[tir:begin] ref="constant_value.cfg" [tir:end]*/

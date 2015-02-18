@@ -4,12 +4,10 @@
 #include <sys/stat.h>
 #include "tir.h"
 #include "base64convert.h"
+#include "tirconfig.h"
 
 // Maximum of includes
 #define MAX_INCS	1000
-
-// Buffer size
-#define BUF_SIZE	1024
 
 // Message level
 #define MSG_ERROR	1
@@ -23,6 +21,9 @@
 // Convert mode
 #define CONV_BASE64	"base64"
 
+// Default configuration file name
+#define DEFAULT_CFG_FILE	"./tir.cfg"
+
 // Prompt of functions
 void init();
 void parse_parameters(int c, char** v);
@@ -30,12 +31,16 @@ void invalid_check_parameters();
 void fix_parameters();
 void get_current(char* path);
 char* open_file(char* path);
+void add_string_list(const char* val);
 void apply_files(char* f, char* path);
+void set_reference_value(const char* ref, struct tir_reference* result);
 void get_reference_path(char* content, struct tir_attributes* result);
-void include_reference_file(char* path, char* cnv_mode, FILE* ofp);
+void insert_reference_file(const char* path, const char* cnv_mode, FILE* ofp);
+void insert_reference_kvp(const struct tir_reference* ref, FILE* ofp);
 void print_version();
 void print_usage();
 void print_parameters();
+void print_read_tircfg(const struct type_cfg* cfg, const char* path);
 void print_default_words();
 void print_message(int level, char* msg);
 int ask_user(char* msg);
@@ -46,11 +51,18 @@ char p_ifp[BUF_SIZE];	// Input file path in parameter
 char p_ofp[BUF_SIZE];	// Output file path in parameter
 char p_bw[BUF_SIZE];	// The beginning word in parameter
 char p_ew[BUF_SIZE];	// The ending word in parameter
+char p_cfg[BUF_SIZE];	// The name of default configuration file
 
 // Global variable
 int gl_yes_flag			= 0;	// Default of all-yes-flag is false
 int gl_makefile_flag	= 0;	// Default of makefile-flag is false
 char gl_current[BUF_SIZE];		// Current path(place of input file)
+struct type_cfg* gl_tir_cfg;	// "tir" config
+struct str_list{
+	int count;
+	char list[MAX_INCS][BUF_SIZE];
+};
+struct str_list gl_str_list;
 
 int main(int argc, char** argv){
 	init();
@@ -60,11 +72,15 @@ int main(int argc, char** argv){
 	invalid_check_parameters();
 	get_current(p_ifp);
 	print_parameters();
+	// Read configuration file, then parse
+	gl_tir_cfg	= parse_cfg(p_cfg);
+	print_read_tircfg(gl_tir_cfg, p_cfg);
 	// Read a input file
-	char* all = open_file(p_ifp);
+	char* all		= open_file(p_ifp);
 	// Insert & output
 	apply_files(all, p_ofp);
 	// Free memory
+	free_cfg(gl_tir_cfg);
 	free(all);
 	// Normal termination
 	return 0;
@@ -75,6 +91,7 @@ void init(){
 	strcpy(p_ofp, "");
 	strcpy(p_bw, "");
 	strcpy(p_ew, "");
+	strcpy(p_cfg, "");
 	return;
 }
 
@@ -110,6 +127,9 @@ void parse_parameters(int c, char** v){
 		else
 		if( !strcmp(cur, "-ew") )
 			preword = cur;
+		else
+		if( !strcmp(cur, "-cfg") )
+			preword = cur;
 		else{
 			if( !strcmp(preword, "-o") && strcmp(p_ofp, "") == 0 )
 				strcpy(p_ofp, cur);
@@ -119,6 +139,9 @@ void parse_parameters(int c, char** v){
 			else
 			if( !strcmp(preword, "-ew") && strcmp(p_ew, "") == 0 )
 				strcpy(p_ew, cur);
+			else
+			if( !strcmp(preword, "-cfg") && strcmp(p_cfg, "") == 0 )
+				strcpy(p_cfg, cur);
 			else
 			if( strcmp(p_ifp, "") == 0 )
 				strcpy(p_ifp, cur);
@@ -186,6 +209,10 @@ void fix_parameters(){
 			strcpy(p_ew, "[tir:end]*/");
 		}		
 	}
+	// When configuration file wasn't input
+	if( !strcmp(p_cfg, "") ){
+		strcpy(p_cfg, DEFAULT_CFG_FILE);
+	}
 	return;
 }
 
@@ -221,6 +248,18 @@ char* open_file(char* path){
 	return filedata;
 }
 
+void add_string_list(const char* val){
+	if( gl_str_list.count >= MAX_INCS )
+		return;
+	int idx;
+	for(idx=0; idx<gl_str_list.count; idx++){
+		if( !strcmp(gl_str_list.list[idx], val) )
+			return;
+	}
+	strcpy(gl_str_list.list[idx], val);
+	gl_str_list.count++;
+}
+
 void apply_files(char* f, char* path){
 	int count		= 0;
 	int find_count	= 0;	// キーワードを探した回数
@@ -235,6 +274,9 @@ void apply_files(char* f, char* path){
 		// Open output file
 		fp = fopen(path, "w");
 	}
+	// Initialize string list
+	gl_str_list.count	= 0;
+	// Searching
 	while( find_count <= MAX_INCS ){
 		// Count up
 		find_count++;
@@ -268,31 +310,80 @@ void apply_files(char* f, char* path){
 		*(pram + (ptr_end - ptr_begin)) = '\0';
 		// Create struct for attributes
 		struct tir_attributes tattr;
-		char ref_attr[BUF_SIZE];
-		char cnv_attr[BUF_SIZE];
-		tattr.reference		= ref_attr;
-		tattr.convert_mode	= cnv_attr;
+		tattr.reference.type	= REF_TYPE_NULL;
 		// Parse attribute
 		get_reference_path(pram, &tattr);
 		// Edit target path
+		char tar_path[BUF_SIZE];
+		if( tattr.reference.type == REF_TYPE_KEY ){
+			strcpy(tar_path, p_cfg);
+		}else{
+			strcpy(tar_path, tattr.reference.path);
+		}
+		// Join current directory
 		char target[BUF_SIZE];
-		strcpy(target, gl_current);
-		strcat(target, tattr.reference);
-		if( gl_makefile_flag )
-			printf(" %s", target);
+		if( tattr.reference.type == REF_TYPE_FILE )
+			strcpy(target, gl_current);
+		else
+			strcpy(target, "");
+		strcat(target, tar_path);			
+		if( gl_makefile_flag ){
+			add_string_list(target);
+		}
 		// Output reference file
 		if( !gl_makefile_flag ){
-			include_reference_file(target, tattr.convert_mode, fp);
+			switch(tattr.reference.type){
+				case REF_TYPE_FILE:
+					insert_reference_file(target, tattr.convert_mode, fp);
+					break;
+				case REF_TYPE_KEY:
+					insert_reference_kvp(&tattr.reference, fp);
+					break;
+				default:
+					break;
+			}
 		}
 		// Move position
 		pos = ptr_end + strlen(p_ew);
 	}
-	if( gl_makefile_flag )
-		printf("\n\ttir '%s' -o '%s' -bw '%s' -ew '%s' -y\n\n", p_ifp, p_ofp, p_bw, p_ew);
+	// Output command
+	if( gl_makefile_flag ){
+		// Output relative files
+		for(int idx=0; idx<gl_str_list.count; idx++){
+			printf(" %s", gl_str_list.list[idx]);
+		}
+		printf("\n\ttir '%s' -o '%s' -bw '%s' -ew '%s' -y -cfg %s\n\n", p_ifp, p_ofp, p_bw, p_ew, p_cfg);
+	}
 	else{
 		fclose(fp);
 	}
 	return;
+}
+
+void set_reference_value(const char* ref, struct tir_reference* result){
+	// Reference a file
+	if( ref[0] != '#' ){
+		result->type	= REF_TYPE_FILE;
+		strcpy(result->path, ref);
+	}
+	// Reference a config with section
+	else
+	if( ref[1] == '[' ){
+		result->type	= REF_TYPE_KEY;
+		char* pos	= strstr(ref, "]");
+		int slen		= pos - ( ref+2 );
+		int klen		= strlen(ref) - slen - 3;
+		strncpy(result->section, ref+2, slen);
+		result->section[slen]	= '\0';
+		strncpy(result->key, pos+1, klen);
+		result->key[klen]		= '\0';
+	}
+	// Reference a config without section
+	else{
+		result->type	= REF_TYPE_KEY;
+		strcpy(result->key, ref+1);
+		strcpy(result->section, "");
+	}
 }
 
 void get_reference_path(char* content, struct tir_attributes* result){
@@ -302,11 +393,13 @@ void get_reference_path(char* content, struct tir_attributes* result){
 	char* kw_cnv	= "convert=";
 	int kwlen_cnv	= strlen(kw_cnv);
 	// Result buffer clear
-	char* res_ref	= result->reference;
+	strcpy(result->reference.section, "");
+	strcpy(result->reference.key, "");
+	strcpy(result->reference.path, "");
+	strcpy(result->convert_mode, "");
 	char* res_cnv	= result->convert_mode;
-	*res_ref		= 0;
-	*res_cnv		= 0;
 	// Searching
+	char buf[BUF_SIZE];
 	char* pos = content;
 	while( *pos != '\0' ){
 		// Skip
@@ -326,25 +419,25 @@ void get_reference_path(char* content, struct tir_attributes* result){
 				// To double quotation
 				long idx = 0;
 				while( *pos != '\"' && *pos != '\0' ){
-					*(res_ref+idx) = *pos;
+					buf[idx] = *pos;
 					idx++;
 					pos++;
 				}
 				if( *pos == '\"' )
 					pos++;
 				// Terminate
-				*(res_ref+idx) = '\0';
+				buf[idx] = '\0';
 				continue;
 			}
 			else{
 				long idx = 0;
 				while( *pos != ' ' && *pos != '\t' && *pos != '\n' && *pos != '\0'){
-					*(res_ref+idx) = *pos;
+					buf[idx] = *pos;
 					idx++;
 					pos++;
 				}
 				// Terminate
-				*(res_ref+idx) = '\0';
+				buf[idx] = '\0';
 				continue;
 			}
 		}
@@ -389,10 +482,12 @@ void get_reference_path(char* content, struct tir_attributes* result){
 		}
 		pos++;
 	}
+	// Set reference value
+	set_reference_value(buf, &(result->reference));
 	return;
 }
 
-void include_reference_file(char* path, char* cnv_mode, FILE* ofp){
+void insert_reference_file(const char* path, const char* cnv_mode, FILE* ofp){
 	int	base64flag	= 0;
 	if( strcmp(CONV_BASE64, cnv_mode) == 0 )
 		base64flag	= 1;
@@ -437,8 +532,19 @@ void include_reference_file(char* path, char* cnv_mode, FILE* ofp){
 	fclose(incfp);
 }
 
+void insert_reference_kvp(const struct tir_reference* ref, FILE* ofp){
+	char* val	= get_cfg_value(gl_tir_cfg, ref->section, ref->key);
+	if( val == NULL ){
+		char str[BUF_SIZE];
+		sprintf(str, "%s msg=\"Not found([%s]%s) \" %s",p_bw, ref->section, ref->key, p_ew);
+		fwrite(str, sizeof(char), strlen(str), ofp);
+		return;
+	}
+	fwrite(val, sizeof(char), strlen(val), ofp);
+}
+
 void print_version(){
-	printf("Text InserteR\n");
+	printf("tEXT iNSERTEr\n");
 	printf("  version : 0.2.0\n");
 	printf("  github  : https://github.com/lilca/tir\n");
 	return;
@@ -450,6 +556,7 @@ void print_usage(){
 	printf("  -bw : Beginning word for inserting\n");
 	printf("  -ew : Ending word for inserting\n");
 	printf("        e.g. tir infile.c -o outfile.c -bw '//[tir:begin]' -ew '[tir:end]'\n");
+	printf("  -cfg: Configuration file\n");
 	printf("  -h  : Display help\n");
 	printf("  -y  : To override without asking\n");
 	printf("  -makefile:\n");
@@ -467,6 +574,7 @@ void print_parameters(){
 	printf("  Output file    = %s\n",p_ofp);
 	printf("  Beginning word = %s\n",p_bw);
 	printf("  Ending word    = %s\n",p_ew);
+	printf("  Config file    = %s\n",p_cfg);
 	printf("  Override       = ");
 	if( gl_yes_flag )
 		printf("TRUE\n");
@@ -488,6 +596,20 @@ void print_default_words(){
 	printf("  sh rb py r   | #[tir:begin]    | [tir:end]#\n");
 	printf("  other(e.g. c)| /*[tir:begin]   | [tir:end]*/\n");
 	return;
+}
+
+void print_read_tircfg(const struct type_cfg* cfg, const char* path){
+	// When makefile-flag was on, return without print
+	if( gl_makefile_flag )
+		return;
+
+	if( cfg == NULL ){
+		printf("Config file:\n");
+		printf("  No read config file (%s)\n", path);
+	}else{
+		printf("Config file:\n");
+		printf("  Read config file (%s)\n", path);
+	}
 }
 
 void print_message(int level, char* msg){
