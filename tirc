@@ -19,5 +19,5 @@ echo $all >> $tar/$fn
 echo >> $tar/$fn
 for file in `find $tar -name "*.tir" -print`
 do
-	tir $file -makefile -y >> $tar/$fn
+	tir $file -makefile -y -cfg $tar/$cfg >> $tar/$fn
 done
