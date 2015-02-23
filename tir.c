@@ -318,15 +318,22 @@ void apply_files(char* f, char* path){
 		if( tattr.reference.type == REF_TYPE_KEY ){
 			strcpy(tar_path, p_cfg);
 		}else{
-			strcpy(tar_path, tattr.reference.path);
+			if( strstr( tattr.reference.path,"./") == tattr.reference.path )
+				strcpy(tar_path, tattr.reference.path+2);
+			else
+			if( strstr( tattr.reference.path, "/") == tattr.reference.path )
+				strcpy(tar_path, tattr.reference.path+1);
+			else
+				strcpy(tar_path, tattr.reference.path);
 		}
 		// Join current directory
 		char target[BUF_SIZE];
-		if( tattr.reference.type == REF_TYPE_FILE )
+		if( tattr.reference.type == REF_TYPE_FILE ){
 			strcpy(target, gl_current);
+		}
 		else
 			strcpy(target, "");
-		strcat(target, tar_path);			
+		strcat(target, tar_path);
 		if( gl_makefile_flag ){
 			add_string_list(target);
 		}
