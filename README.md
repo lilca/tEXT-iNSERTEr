@@ -10,6 +10,7 @@ Contents
 * [Case examples](#case-examples)
   * [1. Into a HTML file, inserting HTML files](#1-into-a-html-file-inserting-html-files)
   * [2. Multi-File & Nesting](#2-multi-file--nesting)
+  * [3. Inserting config values](#3-inserting-config-values)
 * [Deference of `sed` command](#deference-of-sed-command)
 * [About license](#about-license)
  
@@ -39,21 +40,10 @@ Help
 
 ```
 $ tir
-Usage:
-  -o  : Output file
-  -bw : Beginning word for inserting
-  -ew : Ending word for inserting
-        e.g. tir infile.c -o outfile.c -bw '//[tir:begin]' -ew '[tir:end]'
-  -h  : Display help
-  -y  : To override without asking
-  -makefile:
-        Output makefile info.
-Default words:
-  Suffix       | Begin           | End
-  ---------------------------------------------
-  html htm xml | <!--[tir:begin] | [tir:end]-->
-  sh rb py r   | #[tir:begin]    | [tir:end]#
-  other(e.g. c)| /*[tir:begin]   | [tir:end]*/
+```
+or
+```
+$ tir -h
 ```
 
 Case examples
@@ -165,14 +155,64 @@ Explanations:
  * 'tirc' creates Makefile for 'tir' files in the specified directory.(Caution about the overwriting Makefile)
  * A html tag '&lt;h1&gt;Hey!&lt;/h1&gt;' has achieved description of the nesting structure.
 
+##3. Inserting config values
+
+Command:
+```
+$ tirc ./example3
+$ make -f ./example3/Makefile
+```
+or
+```
+$ make ex3
+```
+test.html.tir:
+```
+<!DOCTYPE html>
+<html>
+	<head>
+		<title><!--[tir:begin] ref="#[strings]page_tile" [tir:end]--></title>
+	</head>
+	<body>
+		<!--[tir:begin]  ref="#content" [tir:end]-->
+		<!--[tir:begin] ref="sub/sub.html" [tir:end]-->
+	</body>
+</html>
+```
+
+tir.cfg
+```
+; No section
+content=<p>Some content</p>
+; Strings section
+[strings]
+page_tile=Example3
+;
+;[tir:begin] ref="constant_value.cfg" [tir:end]*/
+```
+sub/sub.html:
+```
+<h1>Hey!</h1>
+```
+result(test.html)
+```
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Example3</title>
+	</head>
+	<body>
+		<p>Some content</p>
+		<h1>Hey!</h1>
+	</body>
+</html>
+```
+
+Explanations:
+ * Value defined by the configuration file to the location described as "#[strings]page_tile"(or "#content") has been expanded.
+
 Deference of `sed` command
 ===
-You think that,
-
-**"`tir` command is not necessary because the combinations of `sed` command & shell script are able to give same result?"**
-
-I answer you that "That's right! Maybe. But I don't know the specific method.".
-
 I designed `tir` as complicated descriptions is not necessary.
 
 If you prefer `tir`, please use and improvement(e.g. Pull Requests).
