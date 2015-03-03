@@ -2,17 +2,17 @@
 
 all: tir
 
-tir: tir.o base64convert.o tirconfig.o
-	gcc -o tir tir.o base64convert.o tirconfig.o
+tir: src/tir.o src/base64convert.o src/tirconfig.o
+	gcc -o tir src/tir.o src/base64convert.o src/tirconfig.o
 
-tir.o: tir.c tir.h
-	gcc -c tir.c
+src/tir.o: src/tir.c src/tir.h
+	gcc -c src/tir.c
 
-base64convert.o: base64convert.c base64convert.h
-	gcc -c base64convert.c
+src/base64convert.o: src/base64convert.c src/base64convert.h
+	gcc -c src/base64convert.c
 
-tirconfig.o: tirconfig.c tirconfig.h
-	gcc -c tirconfig.c
+src/tirconfig.o: src/tirconfig.c src/tirconfig.h
+	gcc -c src/tirconfig.c
 
 clean:
 	rm -f tir

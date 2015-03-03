@@ -345,7 +345,8 @@ void apply_files(char* f, char* path){
 			strcpy(target, "");
 		strcat(target, tar_val);
 		if( gl_makefile_flag ){
-			add_string_list(target);
+			if( tattr.reference.type != REF_TYPE_SHELL )
+				add_string_list(target);
 		}
 		// Output reference file
 		if( !gl_makefile_flag ){
@@ -578,8 +579,7 @@ void insert_reference_shell(const char* shell, FILE* ofp){
 		return;
 	}
 	char buf[BUF_SIZE];
-	while( !feof(stdout) ){
-		fgets(buf, BUF_SIZE, stdout);
+	while( fgets(buf, BUF_SIZE, stdout) != NULL ){
 		fputs(buf, ofp);
 	}
 	pclose(stdout);
