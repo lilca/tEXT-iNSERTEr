@@ -21,6 +21,7 @@ struct tir_reference {
 struct tir_attributes {
 	struct tir_reference reference;
 	char convert_mode[BUF_SIZE];
+	char dependence[BUF_SIZE];
 };
 
 #endif

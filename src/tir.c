@@ -34,8 +34,10 @@ void fix_parameters();
 void get_current(char* path);
 char* open_file(char* path);
 void add_string_list(const char* val);
+void init_tir_attributes(struct tir_attributes* tar);
 void apply_files(char* f, char* path);
 void set_reference_value(const char* ref, struct tir_reference* result);
+char* copy_value(char* pos,  char* buf, int bias);
 void get_reference_path(char* content, struct tir_attributes* result);
 void insert_reference_file(const char* path, const char* cnv_mode, FILE* ofp);
 void insert_reference_kvp(const struct tir_reference* ref, FILE* ofp);
@@ -263,6 +265,15 @@ void add_string_list(const char* val){
 	gl_str_list.count++;
 }
 
+void init_tir_attributes(struct tir_attributes* tar){
+	tar->reference.type			= REF_TYPE_NULL;
+	tar->reference.section[0]	= '\0';
+	tar->reference.key[0]		= '\0';
+	tar->reference.value[0]		= '\0';
+	tar->convert_mode[0]		= '\0';
+	tar->dependence[0]		= '\0';
+}
+
 void apply_files(char* f, char* path){
 	int count		= 0;
 	int find_count	= 0;	// キーワードを探した回数
@@ -313,7 +324,7 @@ void apply_files(char* f, char* path){
 		*(pram + (ptr_end - ptr_begin)) = '\0';
 		// Create struct for attributes
 		struct tir_attributes tattr;
-		tattr.reference.type	= REF_TYPE_NULL;
+		init_tir_attributes(&tattr);
 		// Parse attribute
 		get_reference_path(pram, &tattr);
 		// Edit target valuepath
@@ -345,8 +356,16 @@ void apply_files(char* f, char* path){
 			strcpy(target, "");
 		strcat(target, tar_val);
 		if( gl_makefile_flag ){
-			if( tattr.reference.type != REF_TYPE_SHELL )
-				add_string_list(target);
+			// Dependence was not set
+			if( !strcmp(tattr.dependence, "") ){
+				if( tattr.reference.type != REF_TYPE_SHELL ){
+					add_string_list(target);
+				}
+			}
+			// was set
+			else{
+				add_string_list(tattr.dependence);
+			}
 		}
 		// Output reference file
 		if( !gl_makefile_flag ){
@@ -413,18 +432,52 @@ void set_reference_value(const char* ref, struct tir_reference* result){
 	}
 }
 
+char* copy_value(char* pos,  char* buf, int bias){
+	// Move positision
+	pos += bias;
+	// Enclosed the string with double quotation
+	if( *pos == '"'){
+		// Move
+		pos++;
+		// To double quotation
+		long idx = 0;
+		while( *pos != '\"' && *pos != '\0' ){
+			buf[idx] = *pos;
+			idx++;
+			pos++;
+		}
+		if( *pos == '\"' )
+			pos++;
+		// Terminate
+		buf[idx] = '\0';
+	}
+	else{
+		long idx = 0;
+		while( *pos != ' ' && *pos != '\t' && *pos != '\n' && *pos != '\0'){
+			buf[idx] = *pos;
+			idx++;
+			pos++;
+		}
+		// Terminate
+		buf[idx] = '\0';
+	}
+	return pos;
+}
 void get_reference_path(char* content, struct tir_attributes* result){
 	// Get attribute keyword info
 	char* kw_ref	= "ref=";
 	int kwlen_ref	= strlen(kw_ref);
 	char* kw_cnv	= "convert=";
 	int kwlen_cnv	= strlen(kw_cnv);
+	char* kw_dep	= "dependence=";
+	int kwlen_dep	= strlen(kw_dep);
 	// Result buffer clear
 	strcpy(result->reference.section, "");
 	strcpy(result->reference.key, "");
 	strcpy(result->reference.value, "");
 	strcpy(result->convert_mode, "");
 	char* res_cnv	= result->convert_mode;
+	char* res_dep	= result->dependence;
 	// Searching
 	char buf[BUF_SIZE];
 	char* pos = content;
@@ -437,70 +490,20 @@ void get_reference_path(char* content, struct tir_attributes* result){
 		// Matching reference keyword
 		else
 		if( !strncmp(pos, kw_ref, kwlen_ref ) ){
-			// Move positision
-			pos += kwlen_ref;
-			// Enclosed the string with double quotation
-			if( *pos == '"'){
-				// Move
-				pos++;
-				// To double quotation
-				long idx = 0;
-				while( *pos != '\"' && *pos != '\0' ){
-					buf[idx] = *pos;
-					idx++;
-					pos++;
-				}
-				if( *pos == '\"' )
-					pos++;
-				// Terminate
-				buf[idx] = '\0';
-				continue;
-			}
-			else{
-				long idx = 0;
-				while( *pos != ' ' && *pos != '\t' && *pos != '\n' && *pos != '\0'){
-					buf[idx] = *pos;
-					idx++;
-					pos++;
-				}
-				// Terminate
-				buf[idx] = '\0';
-				continue;
-			}
+			pos	= copy_value(pos, buf, kwlen_ref);
+			continue;
+		}
+		// Matching dependence
+		else
+		if( !strncmp(pos, kw_dep, kwlen_dep ) ){
+			pos	= copy_value(pos, res_dep, kwlen_dep);
+			continue;
 		}
 		// Matching convert keyword
 		else
 		if( !strncmp(pos, kw_cnv, kwlen_cnv ) ){
-			// Move positision
-			pos += kwlen_cnv;
-			// Enclosed the string with double quotation
-			if( *pos == '"'){
-				// Move
-				pos++;
-				// To double quotation
-				long idx = 0;
-				while( *pos != '\"' && *pos != '\0' ){
-					*(res_cnv+idx) = *pos;
-					idx++;
-					pos++;
-				}
-				if( *pos == '\"' )
-					pos++;
-				// Terminate
-				*(res_cnv+idx) = '\0';
-				continue;
-			}
-			else{
-				long idx = 0;
-				while( *pos != ' ' && *pos != '\t' && *pos != '\n' && *pos != '\0'){
-					*(res_cnv+idx) = *pos;
-					idx++;
-					pos++;
-				}
-				// Terminate
-				*(res_cnv+idx) = '\0';
-				continue;
-			}
+			pos	= copy_value(pos, res_cnv, kwlen_cnv);
+			continue;
 		}
 		// Skip next \t or \n or space
 		else{

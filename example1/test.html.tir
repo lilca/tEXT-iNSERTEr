@@ -7,6 +7,6 @@
 		<!--[tir:begin] 	ref=test sss.html [tir:end]-->
 		<!--[tir:begin]ref=test_sss3.html[tir:end]-->
 		<img src="data:image/png;base64,<!--[tir:begin] ref="../testicon.png" convert="base64" [tir:end]-->"/>
-		<h2><!--[tir:begin] ref=">ls" [tir:end]--></h2>
+		<h2><!--[tir:begin] ref=">date" [tir:end]--></h2>
 	</body>
 </html>
