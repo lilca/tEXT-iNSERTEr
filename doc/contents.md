@@ -1,11 +1,11 @@
 Contents
 ===
 * [README](../README.md)
-* [Install](install)
-* [Syntax](syntax)
-* [Help mode](help-mode)
+* [Install](install.md)
+* [Syntax](syntax.md)
+* [Help mode](help-mode.md)
 * Case examples
-  * [1. Into a HTML file, inserting HTML files](example1)
-  * [2. Multi-File & Nesting](example2)
-  * [3. Inserting config values](example3)
-* [Deference of `sed` command](deference-of-sed-command)
+  * [1. Into a HTML file, inserting HTML files](example1.md)
+  * [2. Multi-File & Nesting](example2.md)
+  * [3. Inserting config values](example3.md)
+* [Deference of `sed` command](deference-of-sed-command.md)
