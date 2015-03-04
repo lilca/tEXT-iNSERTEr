@@ -1,7 +1,3 @@
-
-Welcome to the tEXT-iNSERTEr
-===
- 
 What's tEXT-iNSERTEr
 ===
 
