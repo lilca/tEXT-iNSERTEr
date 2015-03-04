@@ -1,3 +1,3 @@
 tEXT iNSERTEr
 ===
-Please see wiki pages.(https://github.com/lilca/tir/wiki)
+Please see the documents in 'doc' directory.(doc/contents.md)
