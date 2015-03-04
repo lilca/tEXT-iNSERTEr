@@ -18,6 +18,8 @@
 #define RESP_YES	1
 #define RESP_NO		2
 
+#define VERSION_CODE	"0.3.0";
+
 // Convert mode
 #define CONV_BASE64	"base64"
 
@@ -32,11 +34,14 @@ void fix_parameters();
 void get_current(char* path);
 char* open_file(char* path);
 void add_string_list(const char* val);
+void init_tir_attributes(struct tir_attributes* tar);
 void apply_files(char* f, char* path);
 void set_reference_value(const char* ref, struct tir_reference* result);
+char* copy_value(char* pos,  char* buf, int bias);
 void get_reference_path(char* content, struct tir_attributes* result);
 void insert_reference_file(const char* path, const char* cnv_mode, FILE* ofp);
 void insert_reference_kvp(const struct tir_reference* ref, FILE* ofp);
+void insert_reference_shell(const char* shell, FILE* ofp);
 void print_version();
 void print_usage();
 void print_parameters();
@@ -260,6 +265,15 @@ void add_string_list(const char* val){
 	gl_str_list.count++;
 }
 
+void init_tir_attributes(struct tir_attributes* tar){
+	tar->reference.type			= REF_TYPE_NULL;
+	tar->reference.section[0]	= '\0';
+	tar->reference.key[0]		= '\0';
+	tar->reference.value[0]		= '\0';
+	tar->convert_mode[0]		= '\0';
+	tar->dependence[0]		= '\0';
+}
+
 void apply_files(char* f, char* path){
 	int count		= 0;
 	int find_count	= 0;	// キーワードを探した回数
@@ -310,21 +324,28 @@ void apply_files(char* f, char* path){
 		*(pram + (ptr_end - ptr_begin)) = '\0';
 		// Create struct for attributes
 		struct tir_attributes tattr;
-		tattr.reference.type	= REF_TYPE_NULL;
+		init_tir_attributes(&tattr);
 		// Parse attribute
 		get_reference_path(pram, &tattr);
-		// Edit target path
-		char tar_path[BUF_SIZE];
+		// Edit target valuepath
+		char tar_val[BUF_SIZE];
 		if( tattr.reference.type == REF_TYPE_KEY ){
-			strcpy(tar_path, p_cfg);
-		}else{
-			if( strstr( tattr.reference.path,"./") == tattr.reference.path )
-				strcpy(tar_path, tattr.reference.path+2);
+			strcpy(tar_val, p_cfg);
+		}
+		else
+		if( tattr.reference.type == REF_TYPE_SHELL ){
+			strcpy(tar_val, tattr.reference.value);
+		}
+		else
+		if( tattr.reference.type == REF_TYPE_FILE ){
+			char* val	= tattr.reference.value;
+			if( strstr( val,"./") == val )
+				strcpy(tar_val, val+2);
 			else
-			if( strstr( tattr.reference.path, "/") == tattr.reference.path )
-				strcpy(tar_path, tattr.reference.path+1);
+			if( strstr(val, "/") == val )
+				strcpy(tar_val, val+1);
 			else
-				strcpy(tar_path, tattr.reference.path);
+				strcpy(tar_val, val);
 		}
 		// Join current directory
 		char target[BUF_SIZE];
@@ -333,9 +354,18 @@ void apply_files(char* f, char* path){
 		}
 		else
 			strcpy(target, "");
-		strcat(target, tar_path);
+		strcat(target, tar_val);
 		if( gl_makefile_flag ){
-			add_string_list(target);
+			// Dependence was not set
+			if( !strcmp(tattr.dependence, "") ){
+				if( tattr.reference.type != REF_TYPE_SHELL ){
+					add_string_list(target);
+				}
+			}
+			// was set
+			else{
+				add_string_list(tattr.dependence);
+			}
 		}
 		// Output reference file
 		if( !gl_makefile_flag ){
@@ -345,6 +375,9 @@ void apply_files(char* f, char* path){
 					break;
 				case REF_TYPE_KEY:
 					insert_reference_kvp(&tattr.reference, fp);
+					break;
+				case REF_TYPE_SHELL:
+					insert_reference_shell(target, fp);
 					break;
 				default:
 					break;
@@ -368,10 +401,16 @@ void apply_files(char* f, char* path){
 }
 
 void set_reference_value(const char* ref, struct tir_reference* result){
+	// Reference shell command
+	if( ref[0] == '>' ){
+		result->type	= REF_TYPE_SHELL;
+		strcpy(result->value, ref+1);		
+	}
 	// Reference a file
+	else
 	if( ref[0] != '#' ){
 		result->type	= REF_TYPE_FILE;
-		strcpy(result->path, ref);
+		strcpy(result->value, ref);
 	}
 	// Reference a config with section
 	else
@@ -393,18 +432,52 @@ void set_reference_value(const char* ref, struct tir_reference* result){
 	}
 }
 
+char* copy_value(char* pos,  char* buf, int bias){
+	// Move positision
+	pos += bias;
+	// Enclosed the string with double quotation
+	if( *pos == '"'){
+		// Move
+		pos++;
+		// To double quotation
+		long idx = 0;
+		while( *pos != '\"' && *pos != '\0' ){
+			buf[idx] = *pos;
+			idx++;
+			pos++;
+		}
+		if( *pos == '\"' )
+			pos++;
+		// Terminate
+		buf[idx] = '\0';
+	}
+	else{
+		long idx = 0;
+		while( *pos != ' ' && *pos != '\t' && *pos != '\n' && *pos != '\0'){
+			buf[idx] = *pos;
+			idx++;
+			pos++;
+		}
+		// Terminate
+		buf[idx] = '\0';
+	}
+	return pos;
+}
 void get_reference_path(char* content, struct tir_attributes* result){
 	// Get attribute keyword info
 	char* kw_ref	= "ref=";
 	int kwlen_ref	= strlen(kw_ref);
 	char* kw_cnv	= "convert=";
 	int kwlen_cnv	= strlen(kw_cnv);
+	char* kw_dep	= "dependence=";
+	int kwlen_dep	= strlen(kw_dep);
 	// Result buffer clear
 	strcpy(result->reference.section, "");
 	strcpy(result->reference.key, "");
-	strcpy(result->reference.path, "");
+	strcpy(result->reference.value, "");
 	strcpy(result->convert_mode, "");
 	char* res_cnv	= result->convert_mode;
+	char* res_dep	= result->dependence;
 	// Searching
 	char buf[BUF_SIZE];
 	char* pos = content;
@@ -417,70 +490,20 @@ void get_reference_path(char* content, struct tir_attributes* result){
 		// Matching reference keyword
 		else
 		if( !strncmp(pos, kw_ref, kwlen_ref ) ){
-			// Move positision
-			pos += kwlen_ref;
-			// Enclosed the string with double quotation
-			if( *pos == '"'){
-				// Move
-				pos++;
-				// To double quotation
-				long idx = 0;
-				while( *pos != '\"' && *pos != '\0' ){
-					buf[idx] = *pos;
-					idx++;
-					pos++;
-				}
-				if( *pos == '\"' )
-					pos++;
-				// Terminate
-				buf[idx] = '\0';
-				continue;
-			}
-			else{
-				long idx = 0;
-				while( *pos != ' ' && *pos != '\t' && *pos != '\n' && *pos != '\0'){
-					buf[idx] = *pos;
-					idx++;
-					pos++;
-				}
-				// Terminate
-				buf[idx] = '\0';
-				continue;
-			}
+			pos	= copy_value(pos, buf, kwlen_ref);
+			continue;
+		}
+		// Matching dependence
+		else
+		if( !strncmp(pos, kw_dep, kwlen_dep ) ){
+			pos	= copy_value(pos, res_dep, kwlen_dep);
+			continue;
 		}
 		// Matching convert keyword
 		else
 		if( !strncmp(pos, kw_cnv, kwlen_cnv ) ){
-			// Move positision
-			pos += kwlen_cnv;
-			// Enclosed the string with double quotation
-			if( *pos == '"'){
-				// Move
-				pos++;
-				// To double quotation
-				long idx = 0;
-				while( *pos != '\"' && *pos != '\0' ){
-					*(res_cnv+idx) = *pos;
-					idx++;
-					pos++;
-				}
-				if( *pos == '\"' )
-					pos++;
-				// Terminate
-				*(res_cnv+idx) = '\0';
-				continue;
-			}
-			else{
-				long idx = 0;
-				while( *pos != ' ' && *pos != '\t' && *pos != '\n' && *pos != '\0'){
-					*(res_cnv+idx) = *pos;
-					idx++;
-					pos++;
-				}
-				// Terminate
-				*(res_cnv+idx) = '\0';
-				continue;
-			}
+			pos	= copy_value(pos, res_cnv, kwlen_cnv);
+			continue;
 		}
 		// Skip next \t or \n or space
 		else{
@@ -550,9 +573,25 @@ void insert_reference_kvp(const struct tir_reference* ref, FILE* ofp){
 	fwrite(val, sizeof(char), strlen(val), ofp);
 }
 
+void insert_reference_shell(const char* shell, FILE* ofp){
+	FILE* stdout;
+	if( (stdout=popen(shell, "r")) == NULL ){
+		char str[BUF_SIZE];
+		sprintf(str, "%s msg=\"Shell script fault(>%s) \" %s",p_bw, shell, p_ew);
+		fputs(str, ofp);
+		return;
+	}
+	char buf[BUF_SIZE];
+	while( fgets(buf, BUF_SIZE, stdout) != NULL ){
+		fputs(buf, ofp);
+	}
+	pclose(stdout);
+}
+
 void print_version(){
+	char* ver	= VERSION_CODE;
 	printf("tEXT iNSERTEr\n");
-	printf("  version : 0.2.0\n");
+	printf("  version : %s\n", ver);
 	printf("  github  : https://github.com/lilca/tir\n");
 	return;
 }
