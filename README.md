@@ -1,7 +1,7 @@
 What's tEXT-iNSERTEr
 ===
 
-tEXT-iNSERTEr includes `tir` and `tirc`.
+tEXT-iNSERTEr includes `tir` and `tirc`.  
 `tir` is a execute file for inserting the data of specified file into the specified place of a input file.  
 `tirc` is a shell script for building Makefile of specified tir-file with using `tir` command.  
 
