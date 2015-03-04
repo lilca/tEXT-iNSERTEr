@@ -9,4 +9,4 @@ or
 $ tir -h
 ```
 
-[back to README](../README.md)
+[back to Contents](contents.md)

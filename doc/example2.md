@@ -1,6 +1,6 @@
 Case examples
 ===
-[back to README](../README.md)
+[back to Contents](contents.md)
 
 ##2. Multi-File & Nesting
 
@@ -56,4 +56,4 @@ Explanations:
  * 'tirc' creates Makefile for 'tir' files in the specified directory.(Caution about the overwriting Makefile)
  * A html tag '&lt;h1&gt;Hey!&lt;/h1&gt;' has achieved description of the nesting structure.
 
-[back to README](../README.md)
+[back to Contents](contents.md)

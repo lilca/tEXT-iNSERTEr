@@ -1,6 +1,6 @@
 Case examples
 ===
-[back to README](../README.md)
+[back to Contents](contents.md)
 
 
 ##1. Into a HTML file, inserting HTML files
@@ -56,4 +56,4 @@ Explanations:
  * Output file name became a name that was removed `.tir` suffix from input file name.
  * When `base64` were specified in `convert` attribute, reference file is inserted with `base64`.
 
-[back to README](../README.md)
+[back to Contents](contents.md)

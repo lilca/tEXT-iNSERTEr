@@ -1,6 +1,6 @@
 Case examples
 ===
-[back to README](../README.md)
+[back to Contents](contents.md)
 
 ##3. Inserting config values
 
@@ -58,4 +58,4 @@ result(test.html)
 Explanations:
  * Value defined by the configuration file to the location described as "#[strings]page_tile"(or "#content") has been expanded.
 
-[back to README](../README.md)
+[back to Contents](contents.md)

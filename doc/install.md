@@ -4,4 +4,4 @@ Install
 $ sudo make install
 ```
 
-[back to README](../README.md)
+[back to Contents](contents.md)
