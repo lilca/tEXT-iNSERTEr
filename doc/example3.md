@@ -1,5 +1,7 @@
 Case examples
 ===
+[back to README](../README.md)
+
 ##3. Inserting config values
 
 Command:
@@ -55,3 +57,5 @@ result(test.html)
 
 Explanations:
  * Value defined by the configuration file to the location described as "#[strings]page_tile"(or "#content") has been expanded.
+
+[back to README](../README.md)

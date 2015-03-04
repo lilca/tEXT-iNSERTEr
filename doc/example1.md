@@ -1,5 +1,8 @@
 Case examples
 ===
+[back to README](../README.md)
+
+
 ##1. Into a HTML file, inserting HTML files
 
 Command:
@@ -52,3 +55,5 @@ Explanations:
  * When a specified file was not exist, `tir` inserts message at `msg` attribute.
  * Output file name became a name that was removed `.tir` suffix from input file name.
  * When `base64` were specified in `convert` attribute, reference file is inserted with `base64`.
+
+[back to README](../README.md)

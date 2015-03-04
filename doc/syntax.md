@@ -8,3 +8,5 @@ $ tir <input file> [-o <output file>] [-y] [-makefile]
 ```
 $ tirc <target directory>
 ```
+
+[back to README](../README.md)

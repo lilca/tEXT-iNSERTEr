@@ -1,6 +1,5 @@
 Contents
 ===
-* [README](../README.md)
 * [Install](install.md)
 * [Syntax](syntax.md)
 * [Help mode](help-mode.md)
@@ -9,3 +8,5 @@ Contents
   * [2. Multi-File & Nesting](example2.md)
   * [3. Inserting config values](example3.md)
 * [Deference of `sed` command](deference-of-sed-command.md)
+
+[back to README](../README.md)
