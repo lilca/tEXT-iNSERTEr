@@ -9,4 +9,6 @@ Contents
   * [3. Inserting config values](example3.md)
 * [Deference of `sed` command](deference-of-sed-command.md)
 
+-[Note](note.md)
+
 [back to README](../README.md)
