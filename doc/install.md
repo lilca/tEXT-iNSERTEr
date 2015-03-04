@@ -1,0 +1,5 @@
+Install
+===
+```
+$ sudo make install
+```
