@@ -4,12 +4,6 @@
 #include <sys/stat.h>
 #include "tirconfig.h"
 
-// Type of line data
-#define TYPE_COMMENT	1
-#define TYPE_SECTION	2
-#define TYPE_PARAM		3
-#define TYPE_UNKNOWN	-1
-
 // Struct for parse result
 struct st_parse{
 	int status;
@@ -21,7 +15,7 @@ struct st_parse{
 char cur_sec[BUF_SIZE_CFG];
 
 // Prompt of functions
-struct type_cfg* cfg_init();
+struct type_cfg* create_default_cfg();
 void init_status(struct st_parse* status);
 void parse_line(const char* line, struct st_parse* status);
 void set_current_section(const char* value);
@@ -45,10 +39,17 @@ int main(int argc, char** argv){
 }
 */
 
-struct type_cfg* cfg_init(){
-	set_current_section("");
-	struct type_cfg* res;
-	return NULL;
+struct type_cfg* create_default_cfg(){
+	struct type_cfg* res	= NULL;
+	set_current_section(RESERVED_SECTION);
+	struct st_parse status;
+	char* line;
+	for(int idx=0; idx<DEFAULT_CONFIG_VALUES; idx++){
+		line	= dcv[idx];
+		parse_line(line, &status);
+		res	= put_cfg(res, cur_sec, &status);
+	}
+	return res;
 }
 
 void init_status(struct st_parse* status){
@@ -134,8 +135,10 @@ struct type_kvp* put_kvp(struct type_kvp* kvp, const struct st_parse* status){
 	// Duplicate check
 	struct type_kvp* idx	= kvp;
 	while( idx != NULL ){
-		if( !strcmp(idx->key, status->key) )
+		if( !strcmp(idx->key, status->key) ){
+			strcpy(idx->value, status->value);
 			return kvp;
+		}
 		idx	= idx->next;
 	}
 	// Craete data
@@ -171,11 +174,12 @@ void print_kvp(const struct type_kvp* kvp, const char* section){
 }
 
 struct type_cfg*  parse_cfg(const char* path){
-	struct type_cfg* cfg	= NULL;
+	struct type_cfg* cfg	= create_default_cfg();
+	set_current_section("");
 	// Open a input file
 	FILE *fp = fopen(path, "r");
 	if( fp == NULL ){
-		return NULL;
+		return cfg;
 	}
 	// Get file size
 	struct stat st;

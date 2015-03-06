@@ -18,7 +18,7 @@
 #define RESP_YES	1
 #define RESP_NO		2
 
-#define VERSION_CODE	"0.3.0";
+#define VERSION_CODE	"0.5.0";
 
 // Convert mode
 #define CONV_BASE64	"base64"
@@ -30,6 +30,7 @@
 void init();
 void parse_parameters(int c, char** v);
 void invalid_check_parameters();
+char* match_suffix(const char* suffix, const char* key);
 void fix_parameters();
 void get_current(char* path);
 char* open_file(char* path);
@@ -73,12 +74,16 @@ int main(int argc, char** argv){
 	init();
 	// Procedures of parameters
 	parse_parameters(argc, argv);
+	// When configuration file wasn't input
+	if( !strcmp(p_cfg, "") ){
+		strcpy(p_cfg, DEFAULT_CFG_FILE);
+	}
+	// Read configuration file, then parse
+	gl_tir_cfg	= parse_cfg(p_cfg);
 	fix_parameters();
 	invalid_check_parameters();
 	get_current(p_ifp);
 	print_parameters();
-	// Read configuration file, then parse
-	gl_tir_cfg	= parse_cfg(p_cfg);
 	print_read_tircfg(gl_tir_cfg, p_cfg);
 	// Read a input file
 	char* all		= open_file(p_ifp);
@@ -178,6 +183,12 @@ void invalid_check_parameters(){
 	return;
 }
 
+char* match_suffix(const char* suffix, const char* key){
+	char tmp[BUF_SIZE];
+	sprintf(tmp, "%s%s", key, suffix);
+	return get_cfg_value(gl_tir_cfg, RESERVED_SECTION, tmp);
+}
+
 void fix_parameters(){
 	// When the outputfile wasn't input
 	if( !strcmp(p_ofp, "") ){
@@ -188,35 +199,25 @@ void fix_parameters(){
 	}
 	// Check a suffix of input file
 	char* suffix = strrchr(p_ofp, '.');
-	// When the beginning word wasn't input
-	if( !strcmp(suffix, ".html") || !strcmp(suffix, ".htm") || !strcmp(suffix, ".xml") ){
-		if( !strcmp(p_bw, "") ){
-			strcpy(p_bw, "<!--[tir:begin]");
-		}
-		if( !strcmp(p_ew, "") ){
-			strcpy(p_ew, "[tir:end]-->");
-		}
-	}
-	else
-	if( !strcmp(suffix, ".sh") || !strcmp(suffix, ".r") || !strcmp(suffix, ".rb") || !strcmp(suffix, ".py") ){
-		if( !strcmp(p_bw, "") ){
-			strcpy(p_bw, "#[tir:begin]");
-		}
-		if( !strcmp(p_ew, "") ){
-			strcpy(p_ew, "[tir:end]#");
-		}		
-	}
-	else{
-		if( !strcmp(p_bw, "") ){
+	// Begin word
+	if( !strcmp(p_bw, "")  ){
+		char* bw;
+		if( (bw=match_suffix(suffix, "bw")) == NULL ){
 			strcpy(p_bw, "/*[tir:begin]");
 		}
-		if( !strcmp(p_ew, "") ){
-			strcpy(p_ew, "[tir:end]*/");
-		}		
+		else{
+			strcpy(p_bw, bw);
+		}
 	}
-	// When configuration file wasn't input
-	if( !strcmp(p_cfg, "") ){
-		strcpy(p_cfg, DEFAULT_CFG_FILE);
+	// End word
+	if( !strcmp(p_ew, "") ){
+		char* ew;
+		if( (ew=match_suffix(suffix, "ew")) == NULL ){
+			strcpy(p_ew, "[tir:end]*/");
+		}
+		else{
+			strcpy(p_ew, ew);
+		}
 	}
 	return;
 }
@@ -287,6 +288,9 @@ void apply_files(char* f, char* path){
 	else{
 		// Open output file
 		fp = fopen(path, "w");
+		if( fp == NULL ){			
+			exit(-1);
+		}
 	}
 	// Initialize string list
 	gl_str_list.count	= 0;
@@ -590,9 +594,9 @@ void insert_reference_shell(const char* shell, FILE* ofp){
 
 void print_version(){
 	char* ver	= VERSION_CODE;
-	printf("tEXT iNSERTEr\n");
+	printf("tEXT-iNSERTEr\n");
 	printf("  version : %s\n", ver);
-	printf("  github  : https://github.com/lilca/tir\n");
+	printf("  github  : https://github.com/lilca/tEXT-iNSERTEr\n");
 	return;
 }
 
@@ -638,6 +642,7 @@ void print_default_words(){
 	printf("Default words:\n");
 	printf("  Suffix       | Begin           | End\n");
 	printf("  ---------------------------------------------\n");
+	printf("  cfg          | ;[tir:begin]    | [tir:end];\n");
 	printf("  html htm xml | <!--[tir:begin] | [tir:end]-->\n");
 	printf("  sh rb py r   | #[tir:begin]    | [tir:end]#\n");
 	printf("  other(e.g. c)| /*[tir:begin]   | [tir:end]*/\n");
