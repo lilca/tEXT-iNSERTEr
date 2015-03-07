@@ -3,15 +3,9 @@
 ;-----------------
 content=<p>Some content</p>
 ;-----------------
-; Reserved for tir command
-;-----------------
-[reserved.tir]
-bw.cfg=;[tir:begin]
-ew.cfg=[tir:end]
-;-----------------
 ; Strings section
 ;-----------------
 [strings]
 page_tile=Example3
 ;
-;[tir:begin] ref="constant_value.cfg" [tir:end]*/
+;[tir:begin] ref="constant_value.cfg" [tir:end];

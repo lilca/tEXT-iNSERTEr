@@ -60,7 +60,8 @@ char p_ew[BUF_SIZE];	// The ending word in parameter
 char p_cfg[BUF_SIZE];	// The name of default configuration file
 
 // Global variable
-int gl_yes_flag			= 0;	// Default of all-yes-flag is false
+int gl_cfg_read		= 0; // When config file was read, not zero
+int gl_yes_flag		= 0;	// Default of all-yes-flag is false
 int gl_makefile_flag	= 0;	// Default of makefile-flag is false
 char gl_current[BUF_SIZE];		// Current path(place of input file)
 struct type_cfg* gl_tir_cfg;	// "tir" config
@@ -79,7 +80,7 @@ int main(int argc, char** argv){
 		strcpy(p_cfg, DEFAULT_CFG_FILE);
 	}
 	// Read configuration file, then parse
-	gl_tir_cfg	= parse_cfg(p_cfg);
+	gl_tir_cfg	= parse_cfg(p_cfg, &gl_cfg_read);
 	fix_parameters();
 	invalid_check_parameters();
 	get_current(p_ifp);
@@ -654,7 +655,7 @@ void print_read_tircfg(const struct type_cfg* cfg, const char* path){
 	if( gl_makefile_flag )
 		return;
 
-	if( cfg == NULL ){
+	if( gl_cfg_read == 0 ){
 		printf("Config file:\n");
 		printf("  No read config file (%s)\n", path);
 	}else{

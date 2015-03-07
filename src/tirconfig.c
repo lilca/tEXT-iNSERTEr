@@ -24,6 +24,26 @@ struct type_kvp* put_kvp(struct type_kvp* kvp, const struct st_parse* status);
 void print_kvp(const struct type_kvp* kvp, const char* section);
 void free_kvp(struct type_kvp* kvp);
 
+#define DEFAULT_CONFIG_VALUES	16
+char* dcv[DEFAULT_CONFIG_VALUES]	= {
+	"bw.html=<!--[tir:begin]",
+	"ew.html=[tir:end]-->",
+	"bw.htm=<!--[tir:begin]",
+	"ew.htm=[tir:end]-->",
+	"bw.xml=<!--[tir:begin]",
+	"ew.xml=[tir:end]-->",
+	"bw.sh=#[tir:begin]",
+	"ew.sh=[tir:end]#",
+	"bw.r=#[tir:begin]",
+	"ew.r=[tir:end]#",
+	"bw.rb=#[tir:begin]",
+	"ew.rb=[tir:end]#",
+	"bw.py=#[tir:begin]",
+	"ew.py=[tir:end]#",
+	"bw.cfg=;[tir:begin]",
+	"ew.cfg=[tir:end];",
+};
+
 /*/ for test
 int main(int argc, char** argv){
 	if( argc < 2 ){
@@ -173,7 +193,7 @@ void print_kvp(const struct type_kvp* kvp, const char* section){
 	}	
 }
 
-struct type_cfg*  parse_cfg(const char* path){
+struct type_cfg*  parse_cfg(const char* path, int* result){
 	struct type_cfg* cfg	= create_default_cfg();
 	set_current_section("");
 	// Open a input file
@@ -207,7 +227,8 @@ struct type_cfg*  parse_cfg(const char* path){
 		}
 	}
 	fclose(fp);
-	
+	// Config file was read
+	*result	= 1;
 	return cfg;
 }
 

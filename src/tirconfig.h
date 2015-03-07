@@ -26,27 +26,7 @@ struct type_cfg{
 	struct type_cfg* last;
 };
 
-#define DEFAULT_CONFIG_VALUES	16
-char* dcv[DEFAULT_CONFIG_VALUES]	= {
-	"bw.html=<!--[tir:begin]",
-	"ew.html=[tir:end]-->",
-	"bw.htm=<!--[tir:begin]",
-	"ew.htm=[tir:end]-->",
-	"bw.xml=<!--[tir:begin]",
-	"ew.xml=[tir:end]-->",
-	"bw.sh=#[tir:begin]",
-	"ew.sh=[tir:end]#",
-	"bw.r=#[tir:begin]",
-	"ew.r=[tir:end]#",
-	"bw.rb=#[tir:begin]",
-	"ew.rb=[tir:end]#",
-	"bw.py=#[tir:begin]",
-	"ew.py=[tir:end]#",
-	"bw.cfg=;[tir:begin]",
-	"ew.cfg=[tir:end];",
-};
-
-struct type_cfg*  parse_cfg(const char* path);
+struct type_cfg*  parse_cfg(const char* path, int* result);
 void free_cfg(struct type_cfg* config);
 char* get_cfg_value(const struct type_cfg* config, const char* section, const char* key);
 void print_cfg(const struct type_cfg* cfg);
