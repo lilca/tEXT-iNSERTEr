@@ -57,7 +57,7 @@ Explanations:
  * No action for invalid attributes(e.g. above `background`).
  * When a specified file was not exist, `tir` inserts message at `msg` attribute.
  * Output file name became a name that was removed `.tir` suffix from input file name.
- * When `base64` were specified in `convert` attribute, reference file is inserted with `base64`.
+ * When `base64` was specified in `convert` attribute, reference file is inserted with `base64`.
  * Current date was inserted into h2 tag by the reference of `>date`
 
 [back to Contents](contents.md)
