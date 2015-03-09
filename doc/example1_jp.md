@@ -52,12 +52,12 @@ result(test.html)
 </html>
 ```
 
-Explanations:
- * The contents of specified file(test_sub.hmtl) at `ref` attribute were inserted.
- * No action for invalid attributes(e.g. above `background`).
- * When a specified file was not exist, `tir` inserts message at `msg` attribute.
- * Output file name became a name that was removed `.tir` suffix from input file name.
- * When `base64` were specified in `convert` attribute, reference file is inserted with `base64`.
- * Current date was inserted into h2 tag by the reference of `>date`
+説明:
+ * `ref`属性で指定されたファイル(test_sub.hmtl)の内容が挿入された。
+ * 無効な属性では何もしない（例えば、上記の`background`）。
+ * 指定されたファイルが存在しなかったとき、`tir`は`msg`属性でメッセージを挿入する。
+ * 出力ファイル名は、入力ファイル名から`.tir`拡張子が取り除かれた名称になる。
+ * `base64`が`convert`属性で指定されたとき、参照ファイルは`base64`で挿入される。
+ * 現在の日時が、`>date`の参照によって、h2タグの中に挿入された。
 
-[back to Contents](contents.md)
+[目次に戻る](contents_jp.md)
