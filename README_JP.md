@@ -2,20 +2,20 @@
 tEXT-iNSERTErとは
 ===
 
-tEXT-iNSERTErは、`tir`と`tirc`を含んでいます。  
-`tir` is a execute file for inserting the data of specified file into the specified place of a input file.  
-`tirc` is a shell script for building Makefile of specified tir-file with using `tir` command.  
+tEXT-iNSERTErは、`tir`と`tirc`を含んでいる。  
+`tir`は、入力ファイルの指定された場所の中に、参照ファイルのテキストデータを挿入するためのツールである。  
+`tirc`は、`tir`を使って、指定されたtirファイルのMakefileを作り上げるツールである。  
 
 Copyright
 ===
-tEXT-iNSERTEr was originally designed and developed by Masayuki Ise (lilca) in 2014.
+tEXT-iNSERTErは、Masayuki Ise(lilca)によって設計，開発された。(2014)
 
-Concept
+コンセプト
 ===
-To cover various text file.  
-To in-line the description of insert instruction within comment statement.  
-Failure message is included into comment statement.  
+様々なテキストファイル形式を取り扱える。  
+コメントステートメントの内部で、挿入指示の記述を埋め込む。  
+失敗メッセージは、コメントステートメントの中に含まれる。  
 
-Documents
+ドキュメント
 ===
-[Please see 'doc' directory.](doc/contents.md)
+['doc'ディレクトリを参照ください。](doc/contents_jp.md)
