@@ -15,9 +15,6 @@ Copyright
 ===
 tEXT-iNSERTEr was originally designed and developed by Masayuki Ise (lilca) in 2014.
 
-To in-line the description of insert instruction within comment statement.  
-Failure message is included into comment statement.  
-
 Documents
 ===
 [Please see 'doc' directory.](doc/contents.md)
