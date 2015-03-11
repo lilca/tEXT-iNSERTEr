@@ -53,7 +53,7 @@ result(test.html)
 ```
 
 説明:
- * 'tirc' creates Makefile for 'tir' files in the specified directory.(Caution about the overwriting Makefile)
- * A html tag '&lt;h1&gt;Hey!&lt;/h1&gt;' has achieved description of the nesting structure.
+ * 'tirc'は指定されたディレクトリに'tir'ファイルのためのMakefileを作りあげた。
+ * HTMLタグ'&lt;h1&gt;Hey!&lt;/h1&gt;'は、ネスティング（入れ子）構造の記述を実現した。
 
 [目次に戻る](contents_jp.md)
