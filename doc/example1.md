@@ -5,6 +5,8 @@ Case examples
 
 ##1. Into a HTML file, inserting HTML files
 
+![](../images/example1-1.png)
+
 Command:
 ```
 $ tir ./example1/test.html.tir -y
