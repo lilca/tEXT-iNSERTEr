@@ -5,6 +5,8 @@
 
 ##1. HTMLファイルの中に、HTMLファイルを挿入する
 
+![](../images/example1-1.png)
+
 Command:
 ```
 $ tir ./example1/test.html.tir -y
