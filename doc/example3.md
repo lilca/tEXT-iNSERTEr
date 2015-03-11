@@ -56,6 +56,6 @@ result(test.html)
 ```
 
 Explanations:
- * Value defined by the configuration file to the location described as "#[strings]page_tile"(or "#content") has been expanded.
+ * Defined value by the configuration file has been expanded to the location described as "#[strings]page_tile"(or "#content").
 
 [back to Contents](contents.md)
