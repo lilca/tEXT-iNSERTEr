@@ -4,6 +4,9 @@ Case examples
 
 ##2. Multi-File & Nesting
 
+![](../images/example2-1.png)
+![](../images/example2-2.png)
+
 Command:
 ```
 $ tirc ./example2
