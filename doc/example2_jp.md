@@ -17,7 +17,7 @@ or
 ```
 $ make ex2
 ```
-Makefile
+Makefile:
 ```
 all: ./example2/sub/sub.html ./example2/test.html
 
