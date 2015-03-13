@@ -18,7 +18,7 @@
 #define RESP_YES	1
 #define RESP_NO		2
 
-#define VERSION_CODE	"0.5.0";
+#define VERSION_CODE	"0.5.1";
 
 // Convert mode
 #define CONV_BASE64	"base64"
@@ -445,9 +445,11 @@ char* copy_value(char* pos,  char* buf, int bias){
 		// Move
 		pos++;
 		// To double quotation
-		long idx = 0;
+		long idx	= 0;
 		while( *pos != '\"' && *pos != '\0' ){
-			buf[idx] = *pos;
+			if( *pos == '\\' )
+				pos++;
+			buf[idx] 	= *pos;
 			idx++;
 			pos++;
 		}
@@ -457,9 +459,11 @@ char* copy_value(char* pos,  char* buf, int bias){
 		buf[idx] = '\0';
 	}
 	else{
-		long idx = 0;
+		long idx	= 0;
 		while( *pos != ' ' && *pos != '\t' && *pos != '\n' && *pos != '\0'){
-			buf[idx] = *pos;
+			if( *pos == '\\' )
+				pos++;
+			buf[idx]	= *pos;
 			idx++;
 			pos++;
 		}
