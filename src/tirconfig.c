@@ -64,7 +64,8 @@ struct type_cfg* create_default_cfg(){
 	set_current_section(RESERVED_SECTION);
 	struct st_parse status;
 	char* line;
-	for(int idx=0; idx<DEFAULT_CONFIG_VALUES; idx++){
+	int idx;
+	for(idx=0; idx<DEFAULT_CONFIG_VALUES; idx++){
 		line	= dcv[idx];
 		parse_line(line, &status);
 		res	= put_cfg(res, cur_sec, &status);

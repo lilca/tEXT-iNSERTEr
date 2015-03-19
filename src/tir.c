@@ -115,7 +115,8 @@ void parse_parameters(int c, char** v){
 		print_default_words();
 		exit(0);
 	}
-	for(int idx=1; idx<c; idx++){
+	int idx;
+	for(idx=1; idx<c; idx++){
 		char* cur = v[idx];	// Current word
 		if( !strcmp(cur, "-h") ){
 			print_version();
@@ -394,7 +395,8 @@ void apply_files(char* f, char* path){
 	// Output command
 	if( gl_makefile_flag ){
 		// Output relative files
-		for(int idx=0; idx<gl_str_list.count; idx++){
+		int idx;
+		for(idx=0; idx<gl_str_list.count; idx++){
 			printf(" %s", gl_str_list.list[idx]);
 		}
 		printf("\n\ttir '%s' -o '%s' -bw '%s' -ew '%s' -y -cfg %s\n\n", p_ifp, p_ofp, p_bw, p_ew, p_cfg);
@@ -583,18 +585,18 @@ void insert_reference_kvp(const struct tir_reference* ref, FILE* ofp){
 }
 
 void insert_reference_shell(const char* shell, FILE* ofp){
-	FILE* stdout;
-	if( (stdout=popen(shell, "r")) == NULL ){
+	FILE* ostd;
+	if( (ostd=popen(shell, "r")) == NULL ){
 		char str[BUF_SIZE];
 		sprintf(str, "%s msg=\"Shell script fault(>%s) \" %s",p_bw, shell, p_ew);
 		fputs(str, ofp);
 		return;
 	}
 	char buf[BUF_SIZE];
-	while( fgets(buf, BUF_SIZE, stdout) != NULL ){
+	while( fgets(buf, BUF_SIZE, ostd) != NULL ){
 		fputs(buf, ofp);
 	}
-	pclose(stdout);
+	pclose(ostd);
 }
 
 void print_version(){
@@ -703,7 +705,8 @@ char* cutsuffix(char* in, char* tar){
 	if( in_len < tar_len )
 		return in;
 	// Compare
-	for(int idx=0; idx<tar_len; idx++){
+	int idx;
+	for(idx=0; idx<tar_len; idx++){
 //	for(char* idx=tar+tar_len-1; idx>=tar; idx--){
 		// When onece was differnt, return var"in"
 		if( *(in+in_len-idx-1) != *(tar+tar_len-idx-1) )

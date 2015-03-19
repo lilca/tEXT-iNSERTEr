@@ -95,7 +95,8 @@ char* base64encode(unsigned char* data, long size){
 	int res_size	= char_div * 4;
 	char* res		= (char*)malloc( res_size +1);
 	char* res_p		= res;
-	for(int idx=0; idx<size; idx+=3){
+	int idx;
+	for(idx=0; idx<size; idx+=3){
 		switch( size - idx ){
 		case 1:
 			c0			= data[idx+0];
@@ -123,7 +124,7 @@ char* base64encode(unsigned char* data, long size){
 			break;
 		}
 	}
-	for(int idx=char_mod; idx>0; idx--)
+	for(idx=char_mod; idx>0; idx--)
 		*(res_p++)	= '=';
 	res[res_size]	= 0;
 	return res;
@@ -145,7 +146,8 @@ unsigned char* base64decode(char* base64, long size, long* outsize){
 	unsigned char* res		= (unsigned char*)malloc(real_size*6/8);
 	unsigned char* res_p	= res;
 	int rest_bit			= 8;
-	for(int idx=0; idx<real_size; idx+=4){
+	int idx;
+	for(idx=0; idx<real_size; idx+=4){
 		switch( real_size - idx  ){
 		case 2:
 			c0	= b2n(base64[idx+0]);
