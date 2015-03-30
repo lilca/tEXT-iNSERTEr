@@ -18,13 +18,16 @@
 #define RESP_YES	1
 #define RESP_NO		2
 
-#define VERSION_CODE	"0.5.1";
+#define VERSION_CODE	"0.5.2";
 
 // Convert mode
 #define CONV_BASE64	"base64"
 
 // Default configuration file name
 #define DEFAULT_CFG_FILE	"./tir.cfg"
+
+// for automatically added line feed
+#define AALF	1
 
 // Prompt of functions
 void init();
@@ -241,12 +244,13 @@ char* open_file(char* path){
 		char str[BUF_SIZE];
 		strcpy(str, path);
 		print_message(MSG_ERROR, strcat("Can't open a file:", str) );
+		return NULL;
 	}
 	// Get file size
 	struct stat st;
 	stat(path, &st);
 	// Read all
-	char* filedata = (char*)malloc(st.st_size * sizeof(char));
+	char* filedata = (char*)malloc(st.st_size * sizeof(char)+AALF);
 	char buf[BUF_SIZE];			// Buffer size
 	while( fgets(buf, BUF_SIZE, fp) != NULL ){
 		strcat(filedata, buf);
@@ -278,6 +282,8 @@ void init_tir_attributes(struct tir_attributes* tar){
 }
 
 void apply_files(char* f, char* path){
+	if( f == NULL )
+		return;
 	int count		= 0;
 	int find_count	= 0;	// キーワードを探した回数
 	char* pos		= f;
