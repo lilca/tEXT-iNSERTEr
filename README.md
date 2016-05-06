@@ -2,7 +2,7 @@
 What's tEXT-iNSERTEr
 ===
 
-tEXT-iNSERTEr is the tools for inserting reference file as text data to the appointed place in text file.  
+tEXT-iNSERTEr is the tools for inserting reference file as text data to the specified place in text file.  
 tEXT-iNSERTEr was designed with strong focus on following:
   1. To work at various text file format
   2. To cover nesting structure of reference file
