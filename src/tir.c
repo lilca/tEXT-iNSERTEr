@@ -607,7 +607,7 @@ void insert_reference_shell(const char* shell, FILE* ofp){
 
 void print_version(){
 	char* ver	= VERSION_CODE;
-	printf("tEXT-iNSERTEr\n");
+	printf("tir (tEXT-iNSERTEr)\n");
 	printf("  version : %s\n", ver);
 	printf("  github  : https://github.com/lilca/tEXT-iNSERTEr\n");
 	return;

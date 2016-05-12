@@ -3,7 +3,12 @@ cfg=tir.cfg
 fn=Makefile
 
 if [ $# -lt 1 ]; then
-	tar=.
+	echo "tirc (tEXT-iNSERTEr)"
+	echo "  version  :  0.1.1"
+	echo "  github   :  https://github.com/lilca/tEXT-iNSERTEr"
+	echo "Usage:"
+	echo "  tirc <target directory>"
+	exit 0
 else
 	tar=$1
 fi
