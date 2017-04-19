@@ -18,7 +18,7 @@
 #define RESP_YES	1
 #define RESP_NO		2
 
-#define VERSION_CODE	"0.5.2";
+#define VERSION_CODE	"0.5.3";
 
 // Convert mode
 #define CONV_BASE64	"base64"
@@ -163,7 +163,7 @@ void parse_parameters(int c, char** v){
 			// Clear previous word
 			preword = "";
 		}
-	}	
+	}
 	return;
 }
 
@@ -181,7 +181,7 @@ void invalid_check_parameters(){
 			strcpy(buf, p_ofp);
 			print_message( MSG_INFO, strcat(buf, " is exist already.") );
 			if( ask_user("Override? <y/n>") == RESP_NO ){
-				print_message( MSG_ERROR, "Program was aborted by the user." );			
+				print_message( MSG_ERROR, "Program was aborted by the user." );
 			}
 		}
 	}
@@ -296,7 +296,7 @@ void apply_files(char* f, char* path){
 	else{
 		// Open output file
 		fp = fopen(path, "w");
-		if( fp == NULL ){			
+		if( fp == NULL ){
 			exit(-1);
 		}
 	}
@@ -313,7 +313,7 @@ void apply_files(char* f, char* path){
 			if( !gl_makefile_flag ){
 				fputs(pos, fp);
 			}
-			break;			
+			break;
 		}
 		// Output until a begin word
 		if( !gl_makefile_flag ){
@@ -417,7 +417,7 @@ void set_reference_value(const char* ref, struct tir_reference* result){
 	// Reference shell command
 	if( ref[0] == '>' ){
 		result->type	= REF_TYPE_SHELL;
-		strcpy(result->value, ref+1);		
+		strcpy(result->value, ref+1);
 	}
 	// Reference a file
 	else

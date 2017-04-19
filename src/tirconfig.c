@@ -76,7 +76,7 @@ struct type_cfg* create_default_cfg(){
 void init_status(struct st_parse* status){
 	status->status	= TYPE_UNKNOWN;
 	strcpy(status->key, "");
-	strcpy(status->value, "");	
+	strcpy(status->value, "");
 }
 
 void parse_line(const char* line, struct st_parse* status){
@@ -183,7 +183,7 @@ void print_cfg(const struct type_cfg* cfg){
 	while( idx != NULL ){
 		print_kvp(idx->kvp, idx->section);
 		idx	= idx->next;
-	}	
+	}
 }
 
 void print_kvp(const struct type_kvp* kvp, const char* section){
@@ -191,7 +191,7 @@ void print_kvp(const struct type_kvp* kvp, const char* section){
 	while( idx != NULL ){
 		printf("[%s][%s-%s(%ld)]\n", section, idx->key, idx->value, strlen(idx->value));
 		idx	= idx->next;
-	}	
+	}
 }
 
 struct type_cfg*  parse_cfg(const char* path, int* result){
@@ -243,7 +243,7 @@ void free_cfg(struct type_cfg* config){
 				struct type_kvp* kvp_trash	= kvp;
 				kvp	= kvp->next;
 				free(kvp_trash);
-			}			
+			}
 		}
 		idx	= idx->next;
 		free(trash);
