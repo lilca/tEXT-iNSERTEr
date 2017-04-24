@@ -1,6 +1,7 @@
 # Makefile for the building "tir" on gcc
 #DEBUG_OP	= -fsanitize=address
 DEBUG_OP	=
+VERSION		= 0.5.3
 
 # ----------------------------------------------------------------------
 all: tir
@@ -30,6 +31,9 @@ ex2:
 ex3:
 	tirc ./example3
 	make -f ./example3/Makefile
+
+pkg:
+	tar zcvf ./dist/macports/tir-$(VERSION).tar.gz tir
 
 install: tir
 	install -s tir /usr/local/bin
