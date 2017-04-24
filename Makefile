@@ -4,10 +4,10 @@ DEBUG_OP	=
 VERSION		= 0.5.3
 
 # ----------------------------------------------------------------------
-all: tir
+all: bin/tir
 
-tir: src/tir.o src/base64convert.o src/tirconfig.o
-	gcc $(DEBUG_OP) -o tir src/tir.o src/base64convert.o src/tirconfig.o
+bin/tir: src/tir.o src/base64convert.o src/tirconfig.o
+	gcc $(DEBUG_OP) -o bin/tir src/tir.o src/base64convert.o src/tirconfig.o
 
 src/tir.o: src/tir.c src/tir.h
 	gcc $(DEBUG_OP) -c src/tir.c -o src/tir.o
@@ -18,9 +18,11 @@ src/base64convert.o: src/base64convert.c src/base64convert.h
 src/tirconfig.o: src/tirconfig.c src/tirconfig.h
 	gcc $(DEBUG_OP) -c src/tirconfig.c -o src/tirconfig.o
 
-clean:
-	rm -f tir
+objclean:
 	rm -f ./src/*.o
+
+tirc: src/tirc.test
+	cp src/tirc.test bin/tirc
 
 ex1:
 	tir ./example1/test.html.tir -y
@@ -34,7 +36,8 @@ ex3:
 	make -f ./example3/Makefile
 
 pkg:
-	tar zcvf ./dist/macports/tir-$(VERSION).tar.gz --exclude 'dist' ./*
+	cp ./bin/* ./dist/macports/opt/local/bin
+	cd ./dist/macports; pwd; tar zcvf ./tir-$(VERSION).tar.gz ./opt
 
 install: tir
 	install -s tir /opt/local/bin
