@@ -37,5 +37,5 @@ pkg:
 	tar zcvf ./dist/macports/tir-$(VERSION).tar.gz --exclude 'dist' ./*
 
 install: tir
-	install -s tir /usr/local/bin
-	cp tirc /usr/local/bin
+	install -s tir /opt/local/bin
+#	cp tirc /usr/local/bin
