@@ -20,6 +20,7 @@ src/tirconfig.o: src/tirconfig.c src/tirconfig.h
 
 clean:
 	rm -f tir
+	rm -f ./src/*.o
 
 ex1:
 	tir ./example1/test.html.tir -y
@@ -33,7 +34,7 @@ ex3:
 	make -f ./example3/Makefile
 
 pkg:
-	tar zcvf ./dist/macports/tir-$(VERSION).tar.gz tir
+	tar zcvf ./dist/macports/tir-$(VERSION).tar.gz --exclude 'dist' ./*
 
 install: tir
 	install -s tir /usr/local/bin
