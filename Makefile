@@ -39,6 +39,10 @@ pkg:
 	cp ./bin/* ./dist/macports/opt/local/bin
 	cd ./dist/macports; pwd; tar zcvf ./tir-$(VERSION).tar.gz ./opt
 
-install: tir
-	install -s tir /opt/local/bin
-#	cp tirc /usr/local/bin
+install:
+ifdef DESTDIR
+	install -s bin/tir $(DESTDIR)
+	install bin/tirc $(DESTDIR)
+else
+	echo DESTDIR is empty.
+endif

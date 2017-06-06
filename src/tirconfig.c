@@ -139,6 +139,10 @@ struct type_cfg* put_cfg(struct type_cfg* cfg, const char* section, const struct
 	}
 	// Craete data
 	struct type_cfg* tmp	= (struct type_cfg*)malloc(sizeof(struct type_cfg));
+	tmp->kvp  = NULL;
+	tmp->next = NULL;
+	tmp->last = NULL;
+	//
 	strcpy(tmp->section, section);
 	tmp->kvp	= put_kvp(tmp->kvp, status);
 	// Link
@@ -164,6 +168,9 @@ struct type_kvp* put_kvp(struct type_kvp* kvp, const struct st_parse* status){
 	}
 	// Craete data
 	struct type_kvp* tmp	= (struct type_kvp*)malloc(sizeof(struct type_kvp));
+	tmp->next = NULL;
+	tmp->last = NULL;
+	//
 	strcpy(tmp->key, status->key);
 	strcpy(tmp->value, status->value);
 	// Link

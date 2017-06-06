@@ -18,7 +18,7 @@
 #define RESP_YES	1
 #define RESP_NO		2
 
-#define VERSION_CODE	"0.5.3";
+#define VERSION_CODE	"0.5.3a";
 
 // Convert mode
 #define CONV_BASE64	"base64"
