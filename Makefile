@@ -44,5 +44,6 @@ ifdef DESTDIR
 	install -s bin/tir $(DESTDIR)
 	install bin/tirc $(DESTDIR)
 else
-	echo DESTDIR is empty.
+	install -s bin/tir /usr/local/bin
+	install bin/tirc /usr/local/bin
 endif
