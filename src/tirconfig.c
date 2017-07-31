@@ -24,7 +24,7 @@ struct type_kvp* put_kvp(struct type_kvp* kvp, const struct st_parse* status);
 void print_kvp(const struct type_kvp* kvp, const char* section);
 void free_kvp(struct type_kvp* kvp);
 
-#define DEFAULT_CONFIG_VALUES	16
+#define DEFAULT_CONFIG_VALUES	18
 char* dcv[DEFAULT_CONFIG_VALUES]	= {
 	"bw.html=<!--[tir:begin]",
 	"ew.html=[tir:end]-->",
@@ -42,6 +42,8 @@ char* dcv[DEFAULT_CONFIG_VALUES]	= {
 	"ew.py=[tir:end]#",
 	"bw.cfg=;[tir:begin]",
 	"ew.cfg=[tir:end];",
+	"bw.svg=<!--[tir:begin]",
+	"ew.svg=[tir:end]-->",
 };
 
 /*/ for test

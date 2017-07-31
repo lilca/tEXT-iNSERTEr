@@ -18,7 +18,7 @@
 #define RESP_YES	1
 #define RESP_NO		2
 
-#define VERSION_CODE	"0.5.3a";
+#define VERSION_CODE	"0.5.4";
 
 // Convert mode
 #define CONV_BASE64	"base64"
@@ -653,12 +653,12 @@ void print_parameters(){
 
 void print_default_words(){
 	printf("Default words:\n");
-	printf("  Suffix       | Begin           | End\n");
+	printf("  Suffix         | Begin           | End\n");
 	printf("  ---------------------------------------------\n");
-	printf("  cfg          | ;[tir:begin]    | [tir:end];\n");
-	printf("  html htm xml | <!--[tir:begin] | [tir:end]-->\n");
-	printf("  sh rb py r   | #[tir:begin]    | [tir:end]#\n");
-	printf("  other(e.g. c)| /*[tir:begin]   | [tir:end]*/\n");
+	printf("  cfg            | ;[tir:begin]    | [tir:end];\n");
+	printf("  htm(l) svg xml | <!--[tir:begin] | [tir:end]-->\n");
+	printf("  sh rb py r     | #[tir:begin]    | [tir:end]#\n");
+	printf("  other(e.g. c)  | /*[tir:begin]   | [tir:end]*/\n");
 	return;
 }
 
