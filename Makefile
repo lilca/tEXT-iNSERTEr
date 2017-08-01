@@ -1,13 +1,12 @@
 # Makefile for the building "tir" on gcc
 #DEBUG_OP	= -fsanitize=address
 DEBUG_OP	=
-VERSION		= 0.5.3
 
 # ----------------------------------------------------------------------
 all: bin/tir
 
 bin/tir: src/tir.o src/base64convert.o src/tirconfig.o
-	gcc $(DEBUG_OP) -o bin/tir src/tir.o src/base64convert.o src/tirconfig.o
+	gcc $(DEBUG_OP) -o bin/tir src/tir.o src/base64convert.o src/tirconfig.o src/opt_strcat.o
 
 src/tir.o: src/tir.c src/tir.h
 	gcc $(DEBUG_OP) -c src/tir.c -o src/tir.o
@@ -17,6 +16,9 @@ src/base64convert.o: src/base64convert.c src/base64convert.h
 
 src/tirconfig.o: src/tirconfig.c src/tirconfig.h
 	gcc $(DEBUG_OP) -c src/tirconfig.c -o src/tirconfig.o
+
+src/opt_strcat.o: src/opt_strcat.c src/opt_strcat.h
+	gcc $(DEBUG_OP) -c src/opt_strcat.c -o src/opt_strcat.o
 
 objclean:
 	rm -f ./src/*.o
@@ -34,10 +36,6 @@ ex2:
 ex3:
 	tirc ./example3
 	make -f ./example3/Makefile
-
-pkg:
-	cp ./bin/* ./dist/macports/opt/local/bin
-	cd ./dist/macports; pwd; tar zcvf ./tir-$(VERSION).tar.gz ./opt
 
 install:
 ifdef DESTDIR

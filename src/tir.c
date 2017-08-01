@@ -5,6 +5,7 @@
 #include "tir.h"
 #include "base64convert.h"
 #include "tirconfig.h"
+#include "opt_strcat.h"
 
 // Maximum of includes
 #define MAX_INCS	1000
@@ -366,7 +367,13 @@ void apply_files(char* f, char* path){
 		}
 		else
 			strcpy(target, "");
-		strcat(target, tar_val);
+		// Optimize "../" to target path
+		if( tattr.reference.type == REF_TYPE_FILE ){
+			opt_strcat(target, tar_val);
+		}
+		else
+			strcat(target, tar_val);
+		//
 		if( gl_makefile_flag ){
 			// Dependence was not set
 			if( !strcmp(tattr.dependence, "") ){
