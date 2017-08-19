@@ -5,7 +5,7 @@ DEBUG_OP	=
 # ----------------------------------------------------------------------
 all: bin/tir
 
-bin/tir: src/tir.o src/base64convert.o src/tirconfig.o
+bin/tir: src/tir.o src/base64convert.o src/tirconfig.o src/opt_strcat.o
 	gcc $(DEBUG_OP) -o bin/tir src/tir.o src/base64convert.o src/tirconfig.o src/opt_strcat.o
 
 src/tir.o: src/tir.c src/tir.h
@@ -20,9 +20,6 @@ src/tirconfig.o: src/tirconfig.c src/tirconfig.h
 src/opt_strcat.o: src/opt_strcat.c src/opt_strcat.h
 	gcc $(DEBUG_OP) -c src/opt_strcat.c -o src/opt_strcat.o
 
-objclean:
-	rm -f ./src/*.o
-
 tirc: src/tirc.test
 	cp src/tirc.test bin/tirc
 
@@ -36,6 +33,9 @@ ex2:
 ex3:
 	tirc ./example3
 	make -f ./example3/Makefile
+
+clean:
+	rm -f src/*.o
 
 install:
 ifdef DESTDIR
