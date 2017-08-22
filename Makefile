@@ -1,7 +1,6 @@
 # Makefile for the building "tir" on gcc
 #DEBUG_OP	= -fsanitize=address
 DEBUG_OP	=
-
 # ----------------------------------------------------------------------
 all: bin/tir
 
@@ -39,8 +38,8 @@ clean:
 
 install:
 ifdef DESTDIR
-	install -s bin/tir $(DESTDIR)
-	install bin/tirc $(DESTDIR)
+	install -s bin/tir $(DESTDIR)$(PREFIX)/bin
+	install bin/tirc $(DESTDIR)$(PREFIX)/bin
 else
 	install -s bin/tir /usr/local/bin
 	install bin/tirc /usr/local/bin
