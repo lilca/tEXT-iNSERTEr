@@ -1,24 +1,30 @@
 # Makefile for the building "tir" on gcc
 #DEBUG_OP	= -fsanitize=address
 DEBUG_OP	=
-CC = gcc
+CC				= gcc
+CFLAGS		=
+LDFLAGS		=
+CXX				=
+CXXFLAGS	=
+CPP				=
+CPPFLAGS	=
 # ----------------------------------------------------------------------
 all: bin/tir
 
 bin/tir: src/tir.o src/base64convert.o src/tirconfig.o src/opt_strcat.o
-	$(CC) $(DEBUG_OP) -o bin/tir src/tir.o src/base64convert.o src/tirconfig.o src/opt_strcat.o
+	$(CC) $(DEBUG_OP) $(LDFLAGS) -o bin/tir src/tir.o src/base64convert.o src/tirconfig.o src/opt_strcat.o
 
 src/tir.o: src/tir.c src/tir.h
-	$(CC) $(DEBUG_OP) -c src/tir.c -o src/tir.o
+	$(CC) $(DEBUG_OP) $(CFLAGS) -c src/tir.c -o src/tir.o
 
 src/base64convert.o: src/base64convert.c src/base64convert.h
-	$(CC) $(DEBUG_OP) -c src/base64convert.c -o src/base64convert.o
+	$(CC) $(DEBUG_OP) $(CFLAGS) -c src/base64convert.c -o src/base64convert.o
 
 src/tirconfig.o: src/tirconfig.c src/tirconfig.h
-	$(CC) $(DEBUG_OP) -c src/tirconfig.c -o src/tirconfig.o
+	$(CC) $(DEBUG_OP) $(CFLAGS) -c src/tirconfig.c -o src/tirconfig.o
 
 src/opt_strcat.o: src/opt_strcat.c src/opt_strcat.h
-	$(CC) $(DEBUG_OP) -c src/opt_strcat.c -o src/opt_strcat.o
+	$(CC) $(DEBUG_OP) $(CFLAGS) -c src/opt_strcat.c -o src/opt_strcat.o
 
 tirc: src/tirc.test
 	cp src/tirc.test bin/tirc
