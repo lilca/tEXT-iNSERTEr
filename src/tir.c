@@ -7,7 +7,7 @@
 #include "tirconfig.h"
 #include "opt_strcat.h"
 
-// Maximum of includes
+// Maximum of includes (Safty)
 #define MAX_INCS	1000
 
 // Message level
