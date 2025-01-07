@@ -1,28 +1,46 @@
+# スペース文字を定義
 sp=' '
+# 設定ファイルと生成するMakefileのファイル名
 cfg=tir.cfg
 fn=Makefile
 
+# 引数が1つ未満の場合の処理
 if [ $# -lt 1 ]; then
+	# プログラムのバージョンとGithubリポジトリ情報を表示
 	echo "tirc (tEXT-iNSERTEr)"
 	echo "  version  :  0.1.1"
 	echo "  github   :  https://github.com/lilca/tEXT-iNSERTEr"
+	# 使用方法を表示
 	echo "Usage:"
 	echo "  tirc <target directory>"
+	# プログラム終了
 	exit 0
 else
+	# 1つ以上の引数が渡された場合、最初の引数をターゲットディレクトリとして設定
 	tar=$1
 fi
 
+# ターゲットディレクトリ内のMakefileを削除
 rm $tar/$fn
 
+# 'all'ターゲットの初期化
 all='all: '
+
+# .tirファイルを見つけるために、指定されたターゲットディレクトリを検索
 for file in `find $tar -name "*.tir" -print`
 do
+	# 'all'ターゲットにファイルのベース名（拡張子を除く）を追加
 	all=$all$sp${file%.*}
 done
+
+# 'all'ターゲットをMakefileに追加
 echo $all >> $tar/$fn
+# Makefileに空行を追加
 echo >> $tar/$fn
+
+# 再び、tirファイルを見つけるために、指定されたターゲットディレクトリを検索
 for file in `find $tar -name "*.tir" -print`
 do
+	# tirファイルに対してtirコマンドを実行し、その出力をMakefileに追加
 	tir $file -makefile -y -cfg $tar/$cfg >> $tar/$fn
 done
