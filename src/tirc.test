@@ -4,16 +4,20 @@
 #include <dirent.h>
 
 void create_makefile(const char *dir_path, const char *cfg) {
-    FILE *makefile;
-    char makefile_path[1024];
+    FILE *makefile;  // メイクファイルへのポインタ
+    char makefile_path[1024]; // メイクファイルのパス
+    // 対象ディレクトリ直下のメイクファイルパスを作る
     snprintf(makefile_path, sizeof(makefile_path), "%s/Makefile", dir_path);
     
+    // メイクファイルをオープン(書込)
     makefile = fopen(makefile_path, "w");
     if (makefile == NULL) {
+        // 失敗したら終了
         perror("Error opening file");
         exit(EXIT_FAILURE);
     }
 
+    // メイクファイルに出力
     fprintf(makefile, "all: ");
     DIR *dir;
     struct dirent *entry;
@@ -50,7 +54,8 @@ void create_makefile(const char *dir_path, const char *cfg) {
     fclose(makefile);
 }
 
-int main(int argc, char *argv[]) {
+int main(int argc, char argv[][]) {
+    // パラメータが ２未満はヘルプを表示して終了
     if (argc < 2) {
         printf("tirc (tEXT-iNSERTEr)\n");
         printf("  version  :  0.1.1\n");
@@ -60,10 +65,12 @@ int main(int argc, char *argv[]) {
         return 0;
     }
 
+    // 対象ディレクトリ
     const char *tar = argv[1];
+    // デフォルトのコンフィグファイルのパス
     const char *cfg = "tir.cfg";
-
+    // メイクファイル作成
     create_makefile(tar, cfg);
-
+    // 正常終了
     return 0;
 }
