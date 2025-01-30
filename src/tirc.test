@@ -19,6 +19,9 @@ void create_makefile(const char *dir_path, const char *cfg) {
 
     // メイクファイルに出力
     fprintf(makefile, "all: ");
+
+ここから
+
     DIR *dir;
     struct dirent *entry;
     char file_path[1024];
